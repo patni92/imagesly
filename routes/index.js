@@ -1,9 +1,8 @@
 var express = require("express");
 var router = express.Router();
+var home = require("../controllers/home");
 
-router.get('/', function(req, res, next) {
-  res.render("index", {name: "imagesly"});
-});
+router.get('/', home.index);
 
 
 module.exports = router;

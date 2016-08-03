@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="utf-8">
-   <title>image</title>
+    <title>image</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
+
 <body>
     {{> header}}
     <div class="container">
-       {{{body}}}
+        <div class="row">
+            <div class="col-md-8">
+                {{{body}}}
+            </div>
+            <div class="col-md-4">
+                {{> popular}} 
+                {{> comments}}
+            </div>
+        </div>
     </div>
     {{> footer}}
-
 </body>
+
 </html>
