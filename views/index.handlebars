@@ -10,7 +10,7 @@
                         <label class=" control-label col-sm-2" for="exampleInputFile">Image:</label>
                         <div class="col-sm-10">
                             <label class="btn btn-default btn-file">
-                                  <span class="fa fa-upload"></span> Browse
+                                <span class="fa fa-upload"></span> Browse
                                 <input type="file" style="display: none;">
                             </label>
                         </div>
@@ -18,11 +18,11 @@
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="exampleInputEmail1">Title:</label>
                         <div class="col-sm-10">
-                            <input type="email" class="form-control" id="exampleInputEmail1" >
+                            <input type="email" class="form-control">
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="exampleInputPassword1">Description:</label>
+                        <label class="control-label col-sm-2">Description:</label>
                         <div class="col-sm-10">
                             <textarea class="form-control"></textarea>
                         </div>
@@ -31,5 +31,15 @@
                 </form>
             </div>
         </div>
-    </div>
-</div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Panel title</h3>
+            </div>
+            <div class="panel-body">
+                {{#each images}}
+                    <div class="col-md-4 text-center">
+                        <a href="/images/{{ imageId }}"><img src="/public/upload/{{filename}}" alt="{{title}}" style="width: 175px; height: 175px;" class="img-thumbnail"></a>
+                    </div>
+                {{/each}}
+            </div>
+        </div>
