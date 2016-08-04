@@ -1,5 +1,20 @@
+body {
+  background: #fafafa;
+}
+
 .newestPics {
   padding-bottom: 14px; 
   padding-left: 7px; 
   padding-right: 7px
+}
+
+.page-header {
+  background: #fff;
+  height: 80px;
+  margin-top: 0px;
+
+}
+
+.page-header h1 {
+  margin-left: 70px;
 }
