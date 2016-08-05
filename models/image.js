@@ -1,11 +1,12 @@
 var mongoose = require("mongoose");
 var path = require("path");
+var Comment = require("./comment")
 var Image = new mongoose.Schema({
    title: String,
    filename: String,
    description: String,
    likes: { type: Number, "default": 0 },
-   comments  : [Comments],
+   comments  : [Comment],
    date: Date,
 
 });
