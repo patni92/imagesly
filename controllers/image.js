@@ -39,12 +39,21 @@ module.exports = {
               }
 
             });
+
+            res.redirect("/image/" + imageName);
         }
         
         storImage();
 
-        res.redirect("/image/:" + imageName);
+       
     },
 
-    
+    showImage: function(req, res) {
+      Image.findOne({filename: { $regex: req.params.idImage }}, function(err, image) {
+        console.log(req.params.idImage);
+        console.log(image);
+        res.render("showImage", image);
+      })
+      
+    }
 };
