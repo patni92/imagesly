@@ -27,7 +27,7 @@ module.exports = {
 
                   var newImage = new Image({
                     title: req.body.title,
-                    filename: imageName,
+                    filename: imageName + extension,
                     description: req.body.description,
 
                   }).save();
