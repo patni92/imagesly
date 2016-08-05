@@ -1,11 +1,11 @@
 var mongoose = require("mongoose");
 
-var campgroundSchema = new mongoose.Schema({
+var ImageSchema = new mongoose.Schema({
    title: String,
    filename: String,
    description: String,
-   likes: Number,
+   likes: { type: Number, "default": 0 },
 
 });
 
-module.exports = mongoose.model("Campground", campgroundSchema);
+module.exports = mongoose.model("Image", ImageSchema);

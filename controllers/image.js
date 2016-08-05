@@ -1,11 +1,50 @@
-var fs = require("fs");  
-var path = require("path");  
-var uid = require("uid2");  
-var mime = require("mime");  
+var Image = require("../models/image");
+var path = require("path");
+var fs = require("fs");
+
 
 module.exports = {
-  newImage: function(req, res) {
-    console.log(req.body);
-    res.redirect("/");
-  }
+    newImage: function(req, res) {
+        function storImage() {
+            var imageName = Math.random().toString(36).substr(2, 9);
+            
+            Image.findOne({ filname: imageName }, function(err, image) {
+
+              if(image) {
+                storImage();
+              } else {
+                var extension = path.extname(req.files[0].originalname);
+                console.log(extension);
+                var filePath = req.files[0].path;
+                var tempName = req.files[0].filename;
+
+                if(extension === ".png" || extension === ".jpeg" || extension === ".jpg" || extension === ".gif") {
+                  fs.rename(filePath, "./public/uploads/" + imageName + extension, function(err, file) {
+                    if(err) {
+                      console.log(err);
+                    }
+                  });
+
+                  var newImage = new Image({
+                    title: req.body.title,
+                    filename: imageName,
+                    description: req.body.description,
+
+                  }).save();
+                } else {
+                  fs.unlink(filePath, function() {
+                    console.log("file removed");
+                  });
+                }
+              }
+
+            });
+        }
+        
+        storImage();
+
+        res.redirect("/image/:" + imageName);
+    },
+
+    
 };
