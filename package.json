@@ -28,6 +28,7 @@
     "mongoose": "^4.5.8",
     "morgan": "^1.7.0",
     "multer": "^1.2.0",
+    "sanitize-html": "^1.13.0",
     "uid2": "0.0.3"
   }
 }
