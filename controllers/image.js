@@ -52,7 +52,7 @@ module.exports = {
 
     showImage: function(req, res) {
         Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-
+          
             res.render("showImage", image);
         });
 

@@ -30,6 +30,7 @@
             </div>
             <hr class="style14">
             <ul class="media-list comment-list">
+            {{#each comments}}
                 <li class="media">
                     <div class="media-left">
                         <a href="#">
@@ -37,9 +38,10 @@
                         </a>
                     </div>
                     <div class="media-body">
-                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. In cursus, sapien in faucibus sollicitudin, nulla urna interdum magna, a accumsan</p>
+                         <p>{{text}}</p>
                     </div>
                 </li>
+                {{/each}}
                 
             </ul>
         </div>
