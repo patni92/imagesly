@@ -51,34 +51,38 @@ module.exports = {
     },
 
     showImage: function(req, res) {
-        Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-          
+        Image.findOne({ filename: { $regex: req.params.idImage } }).populate("comments").exec(function(err, image) {
+
             res.render("showImage", image);
         });
 
     },
 
     newComment: function(req, res) {
-        
+
         var cleanData = sanitizeHtml(req.body.comment, {
             allowedTags: [],
             allowedAttributes: []
         });
-        
 
-        if(cleanData.length === 0 ) {
-          res.status(400).send({ error: "Invalid value" });
+
+        if (cleanData.length === 0) {
+            res.status(400).send({ error: "Invalid value" });
         } else {
-          res.json(cleanData);
-          Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-          image.comments.push({ text:  cleanData });
-          image.save( function (err) {
-            if(err) {
-              console.log(err);
-            }
-          });
-         });
+            res.json(cleanData);
+            Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
+                Comment.create({text: cleanData}, function(err, comment) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        comment.save();
+                        image.comments.push(comment);
+                        image.save();
+                    }
+                });
+
+            });
         }
-        
+
     }
 };
