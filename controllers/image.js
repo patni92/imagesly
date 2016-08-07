@@ -5,6 +5,7 @@ var fs = require("fs");
 var sanitizeHtml = require('sanitize-html');
 
 
+
 module.exports = {
     newImage: function(req, res) {
         function storImage() {
@@ -41,6 +42,7 @@ module.exports = {
                 }
 
             });
+            
 
             res.redirect("/image/" + imageName);
         }
