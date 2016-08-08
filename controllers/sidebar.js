@@ -12,7 +12,7 @@ module.exports = {
                 view.popularImages = images;
                 var testArray = [];
 
-                Comment.find({}, {}, { limit: 5, sort: { 'timestamp': -1 } }, function(err, comments) {
+                Comment.find({}, {}, { limit: 6, sort: { 'timestamp': -1 } }, function(err, comments) {
 
                     if (err) {
                         console.log(err);
@@ -21,37 +21,28 @@ module.exports = {
 
                         list = [];
 
-                        function asyncLoop(i, cb) {
+                        function asyncLoop(i, callback) {
                             if (i < comments.length) {
                                 Image.findById(comments[i].image_id).exec(function(err, image) {
-                                   
-                                    image.lol = "hello";
+
+
                                     list.push({
-                                      relatedImage: image,
-                                      comments: comments[i]
+                                        relatedImage: image,
+                                        comments: comments[i]
                                     });
-                                    asyncLoop(i + 1, cb);
+                                    asyncLoop(i + 1, callback);
                                 });
                             } else {
-                                cb();
+                                callback();
                             }
                         }
 
-
-
-
-
                         asyncLoop(0, function() {
                             view.newComments = list;
-                            console.log(view.newComments);
-                        callback();
+                            
+                            callback();
                         });
-                      
 
-
-
-
-                        
 
                     }
 

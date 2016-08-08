@@ -23,6 +23,15 @@ body {
   margin-left: 70px;
 }
 
+.like {
+  color: #428bca;
+}
+
+.label  {
+  margin-left: 10px;
+  border-radius: 8px;
+}
+
 
 hr.style14 { 
   border: 0; 

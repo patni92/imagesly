@@ -42,7 +42,7 @@ module.exports = {
                 }
 
             });
-            
+
 
             res.redirect("/image/" + imageName);
         }
@@ -73,7 +73,7 @@ module.exports = {
         } else {
             res.json(cleanData);
             Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-                Comment.create({text: cleanData,}, function(err, comment) {
+                Comment.create({ text: cleanData, }, function(err, comment) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -87,5 +87,22 @@ module.exports = {
             });
         }
 
+    },
+
+    like: function(req, res) {
+        Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
+          if(err) {
+            console.log(err);
+          }
+          console.log(image.likes)
+          image.likes =  image.likes + 1;
+          image.save(function(err) {
+            if(err) {
+              res.json(err);
+            } else {
+              res.json({likes: image.likes});
+            }
+          });
+        });
     }
 };

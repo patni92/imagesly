@@ -12,6 +12,7 @@ module.exports = function(app) {
     router.post("/", image.newImage);
     router.get("/image/:idImage", image.showImage);
     router.post("/image/:idImage/comment", image.newComment);
+    router.post("/image/:idImage/like", image.like);
     
    
 
