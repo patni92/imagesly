@@ -6,6 +6,7 @@ var routes = require("../routes/routes");
 var methodOverride = require("method-override");
 var errorHandler = require("errorHandler");
 var multer = require("multer");
+var moment = require("moment");
 
 
 
@@ -43,6 +44,11 @@ module.exports = function(app) {
         layoutsDir: app.get("views") + "/layouts",
         defaultLayout: "main",
         partialsDir: app.get("views") + "/partials",
+        helpers: {
+            timeago: function(timestamp) {
+                return moment(timestamp).startOf("minute").fromNow();
+            }
+        }
 
     }).engine);
 

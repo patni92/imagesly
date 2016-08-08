@@ -3,6 +3,7 @@ var Comment = require("../models/comment");
 var path = require("path");
 var fs = require("fs");
 var sanitizeHtml = require('sanitize-html');
+var sidebar = require("./sidebar");
 
 
 
@@ -55,7 +56,15 @@ module.exports = {
     showImage: function(req, res) {
         Image.findOne({ filename: { $regex: req.params.idImage } }).populate("comments").exec(function(err, image) {
 
-            res.render("showImage", image);
+          var view = {
+            image:image
+          };
+
+           sidebar.sidebar(view, function() {
+                console.log(view);
+                res.render("showImage", view);
+            });
+
         });
 
     },

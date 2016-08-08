@@ -5,7 +5,7 @@
         </div>
         <div class="panel-body">
             <a href="#" class="thumbnail" style="border:none">
-                <img src="/uploads/{{filename}}">
+                <img src="/uploads/{{image.filename}}">
             </a>
         </div>
         <div class="panel-footer">
@@ -16,7 +16,7 @@
                 </i>
 
             </span>
-            <span id="like-counter"class="label label-primary">{{likes}}</span>
+            <span id="like-counter"class="label label-primary">{{image.likes}}</span>
         </button>
         
         </div>
@@ -46,7 +46,7 @@
             </div>
             <hr class="style14">
             <ul class="media-list comment-list">
-                {{#each comments}}
+                {{#each image.comments}}
                     <li class="media">
                         <div class="media-left">
                             <a href="#">
