@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/patni92/imagesly#readme",
   "dependencies": {
+    "async": "^2.0.1",
     "body-parser": "^1.15.2",
     "cookie-parser": "^1.4.3",
     "cookieparser": "^0.1.0",
