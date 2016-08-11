@@ -13,11 +13,12 @@ module.exports = {
             view.images = images;
 
             sidebar.sidebar(view, function() {
-                
-                res.render("index", view);
+                view.layout = "empty";
+                res.render("login",view);
             });
 
         });
 
     }
 };
+

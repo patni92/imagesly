@@ -7,28 +7,43 @@ var methodOverride = require("method-override");
 var errorHandler = require("errorHandler");
 var multer = require("multer");
 var moment = require("moment");
+var passport = require('passport');
+var expressSession = require('express-session');
+var config = require("../config.json");
+var User = require("../models/user");
+
+module.exports = function (app) {
+
+    app.use(expressSession(
+        {
+            secret: config.sessionSecret,
+            resave: false,
+            saveUninitialized: false,
+        }
+    ));
 
 
+    app.use(passport.initialize());
+    app.use(passport.session());
+    passport.serializeUser(User.serializeUser());
+    passport.deserializeUser(User.deserializeUser());
 
-
-
-
-module.exports = function(app) {
 
     app.use(bodyparser.urlencoded({ "extended": true }));
     app.use(bodyparser.json());
     app.use(methodOverride());
 
 
+
     app.use(express.static(path.join(__dirname, "../public")));
 
 
     var storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './public/uploads');
-    },
-   
-});
+        destination: function (req, file, cb) {
+            cb(null, './public/uploads');
+        },
+
+    });
 
     app.use(multer({ storage: storage }).any());
 
@@ -45,7 +60,7 @@ module.exports = function(app) {
         defaultLayout: "main",
         partialsDir: app.get("views") + "/partials",
         helpers: {
-            timeago: function(timestamp) {
+            timeago: function (timestamp) {
                 return moment(timestamp).startOf("minute").fromNow();
             }
         }
@@ -53,18 +68,6 @@ module.exports = function(app) {
     }).engine);
 
     app.set('view engine', 'handlebars');
-
-
-
-
-
-
-
-
-
-
-
-
 
     return app;
 };

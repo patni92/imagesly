@@ -1,13 +1,12 @@
 var Image = require("../models/image");
 var Comment = require("../models/comment");
-var async = require('async');
 module.exports = {
     sidebar: function(view, callback) {
 
         Image.find().sort({ likes: -1 }).limit(6).exec(function(err, images) {
 
             if (err) {
-                console.log(err);
+                console.log(Err);
             } else {
                 view.popularImages = images;
                 var testArray = [];

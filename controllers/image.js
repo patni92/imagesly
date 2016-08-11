@@ -1,3 +1,4 @@
+
 var Image = require("../models/image");
 var Comment = require("../models/comment");
 var path = require("path");
@@ -5,14 +6,12 @@ var fs = require("fs");
 var sanitizeHtml = require('sanitize-html');
 var sidebar = require("./sidebar");
 
-
-
 module.exports = {
-    newImage: function(req, res) {
+    newImage: function (req, res) {
         function storImage() {
             var imageName = Math.random().toString(36).substr(2, 9);
 
-            Image.findOne({ filname: imageName }, function(err, image) {
+            Image.findOne({ filname: imageName }, function (err, image) {
 
                 if (image) {
                     storImage();
@@ -23,7 +22,7 @@ module.exports = {
                     var tempName = req.files[0].filename;
 
                     if (extension === ".png" || extension === ".jpeg" || extension === ".jpg" || extension === ".gif") {
-                        fs.rename(filePath, "./public/uploads/" + imageName + extension, function(err, file) {
+                        fs.rename(filePath, "./public/uploads/" + imageName + extension, function (err, file) {
                             if (err) {
                                 console.log(err);
                             }
@@ -36,7 +35,7 @@ module.exports = {
 
                         }).save();
                     } else {
-                        fs.unlink(filePath, function() {
+                        fs.unlink(filePath, function () {
                             console.log("file removed");
                         });
                     }
@@ -49,18 +48,16 @@ module.exports = {
         }
 
         storImage();
-
-
     },
 
-    showImage: function(req, res) {
-        Image.findOne({ filename: { $regex: req.params.idImage } }).populate("comments").exec(function(err, image) {
+    showImage: function (req, res) {
+        Image.findOne({ filename: { $regex: req.params.idImage } }).populate("comments").exec(function (err, image) {
 
-          var view = {
-            image:image
-          };
+            var view = {
+                image: image
+            };
 
-           sidebar.sidebar(view, function() {
+            sidebar.sidebar(view, function () {
                 console.log(view);
                 res.render("showImage", view);
             });
@@ -69,7 +66,7 @@ module.exports = {
 
     },
 
-    newComment: function(req, res) {
+    newComment: function (req, res) {
 
         var cleanData = sanitizeHtml(req.body.comment, {
             allowedTags: [],
@@ -81,8 +78,8 @@ module.exports = {
             res.status(400).send({ error: "Invalid value" });
         } else {
             res.json(cleanData);
-            Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-                Comment.create({ text: cleanData, }, function(err, comment) {
+            Image.findOne({ filename: { $regex: req.params.idImage } }, function (err, image) {
+                Comment.create({ text: cleanData, }, function (err, comment) {
                     if (err) {
                         console.log(err);
                     } else {
@@ -98,20 +95,20 @@ module.exports = {
 
     },
 
-    like: function(req, res) {
-        Image.findOne({ filename: { $regex: req.params.idImage } }, function(err, image) {
-          if(err) {
-            console.log(err);
-          }
-          console.log(image.likes)
-          image.likes =  image.likes + 1;
-          image.save(function(err) {
-            if(err) {
-              res.json(err);
-            } else {
-              res.json({likes: image.likes});
+    like: function (req, res) {
+        Image.findOne({ filename: { $regex: req.params.idImage } }, function (err, image) {
+            if (err) {
+                console.log(err);
             }
-          });
+            console.log(image.likes)
+            image.likes = image.likes + 1;
+            image.save(function (err) {
+                if (err) {
+                    res.json(err);
+                } else {
+                    res.json({ likes: image.likes });
+                }
+            });
         });
     }
 };
