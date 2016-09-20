@@ -11,7 +11,7 @@ module.exports = {
                 view.popularImages = images;
                 var testArray = [];
 
-                Comment.find({}, {}, { limit: 6, sort: { 'timestamp': -1 } }, function(err, comments) {
+                        Comment.find({}, {}, { limit: 6, sort: { 'timestamp': -1 } }, function(err, comments) {
 
                     if (err) {
                         console.log(err);
@@ -38,7 +38,7 @@ module.exports = {
 
                         asyncLoop(0, function() {
                             view.newComments = list;
-                            
+
                             callback();
                         });
 

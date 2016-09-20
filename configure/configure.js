@@ -12,24 +12,24 @@ var expressSession = require('express-session');
 var config = require("../config.json");
 var User = require("../models/user");
 
-module.exports = function (app) {
+module.exports = function(app) {
 
-    app.use(expressSession(
-        {
-            secret: config.sessionSecret,
-            resave: false,
-            saveUninitialized: false,
-        }
-    ));
+    app.use(expressSession({
+        secret: config.sessionSecret,
+        resave: false,
+        saveUninitialized: false,
+    }));
 
-
-    app.use(passport.initialize());
-    app.use(passport.session());
-    passport.serializeUser(User.serializeUser());
-    passport.deserializeUser(User.deserializeUser());
+    app.use(function(req, res, next) {
+        res.locals.currentUser = req.session.userId;
+        next();
+    });
 
 
-    app.use(bodyparser.urlencoded({ "extended": true }));
+
+    app.use(bodyparser.urlencoded({
+        "extended": true
+    }));
     app.use(bodyparser.json());
     app.use(methodOverride());
 
@@ -39,13 +39,15 @@ module.exports = function (app) {
 
 
     var storage = multer.diskStorage({
-        destination: function (req, file, cb) {
+        destination: function(req, file, cb) {
             cb(null, './public/uploads');
         },
 
     });
 
-    app.use(multer({ storage: storage }).any());
+    app.use(multer({
+        storage: storage
+    }).any());
 
 
 
@@ -60,7 +62,7 @@ module.exports = function (app) {
         defaultLayout: "main",
         partialsDir: app.get("views") + "/partials",
         helpers: {
-            timeago: function (timestamp) {
+            timeago: function(timestamp) {
                 return moment(timestamp).startOf("minute").fromNow();
             }
         }
