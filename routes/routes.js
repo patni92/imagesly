@@ -10,6 +10,7 @@ module.exports = function(app) {
     router.post("/", image.newImage);
     router.post("/register", auth.register);
     router.post("/login", auth.login);
+    router.post("/logout", auth.logout);
     router.get("/image/:idImage", image.showImage);
     router.post("/image/:idImage/comment", image.newComment);
     router.post("/image/:idImage/like", image.like);

@@ -36,6 +36,7 @@ module.exports = {
                     return next(error);
                 } else {
                     req.session.userId = user._id;
+                    console.log(req.session.userId)
                     return res.redirect("/");
                 }
             });
@@ -43,5 +44,11 @@ module.exports = {
             var error = new Error("Email and password are required")
             return next(error);
         }
+    },
+
+    logout: function(req, res, next) {
+        req.session.destroy(function(err) {
+            return res.redirect("/");
+        })
     }
 };
