@@ -3,7 +3,9 @@ var Comment = require("../models/comment");
 module.exports = {
     sidebar: function(view, callback) {
 
-        Image.find().sort({ likes: -1 }).limit(6).exec(function(err, images) {
+        Image.find().sort({
+            likes: -1
+        }).limit(6).exec(function(err, images) {
 
             if (err) {
                 console.log(Err);
@@ -11,7 +13,12 @@ module.exports = {
                 view.popularImages = images;
                 var testArray = [];
 
-                        Comment.find({}, {}, { limit: 6, sort: { 'timestamp': -1 } }, function(err, comments) {
+                Comment.find({}, {}, {
+                    limit: 6,
+                    sort: {
+                        'timestamp': -1
+                    }
+                }, function(err, comments) {
 
                     if (err) {
                         console.log(err);

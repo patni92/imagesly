@@ -31,7 +31,8 @@ var webEvents = {
                 encode: true
             }).done(function(data) {
 
-                var htmlContent = '<li class="media"><div class="media-left"><img class="media-object" src="..." alt="...">';
+                var imgSrc = document.querySelector(".gravatar-img").src
+                var htmlContent = '<li class="media"><div class="media-left"><img class="media-object comment-gravatar" src="' + imgSrc +'" alt="...">';
                 htmlContent += '</div> <div class="media-body">';
                 htmlContent += '<p>' + data + '</p></div></li>';
 
@@ -54,7 +55,7 @@ var webEvents = {
 
       });
 
-       
+
 
     }
 };

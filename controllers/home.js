@@ -1,9 +1,10 @@
 var Image = require("../models/image");
 var sidebar = require("./sidebar");
+var User = require("../models/user");
 module.exports = {
     index: function(req, res) {
         var view = {};
-        
+
         if (!req.session.userId) {
 
             view.layout = "empty";
@@ -17,8 +18,12 @@ module.exports = {
                 view.images = images;
 
                 sidebar.sidebar(view, function() {
-                    view.layout = "main";
-                    res.render("index",view);
+                    User.findById(req.session.userId, function(err, user) {
+                        view.gravatarImg = user.gravatarImg;
+                        view.layout = "main";
+                        console.log(view);
+                        res.render("index",view);
+                    });
                 });
 
             });

@@ -5,6 +5,7 @@ var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var sidebar = require('./sidebar');
 var Like = require("../models/like");
+var User = require("../models/user")
 
 
 
@@ -72,10 +73,12 @@ module.exports = {
                 };
 
 
-
-                sidebar.sidebar(view, function() {
-                    console.log(view);
-                    res.render('showImage', view);
+                User.findById(req.session.userId, function(err, user) {
+                    view.gravatarImg = user.gravatarImg;
+                    sidebar.sidebar(view, function() {
+                        console.log(view);
+                        res.render('showImage', view);
+                    });
                 });
 
             });
@@ -107,10 +110,13 @@ module.exports = {
                         if (err) {
                             console.log(err);
                         } else {
-                            comment.image_id = image._id;
-                            comment.save();
-                            image.comments.push(comment);
-                            image.save();
+                            User.findById(req.session.userId, function(err, user) {
+                                comment.image_id = image._id;
+                                comment.gravatarImg = user.gravatarImg;
+                                comment.save();
+                                image.comments.push(comment);
+                                image.save();
+                            })
                         }
                     });
 

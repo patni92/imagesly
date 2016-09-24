@@ -1,12 +1,13 @@
 <div>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title">Comments</h3>
+            <h3 class="panel-title">{{image.title}}</h3>
         </div>
         <div class="panel-body">
             <a href="#" class="thumbnail" style="border:none">
                 <img src="/uploads/{{image.filename}}">
             </a>
+            {{image.description}}
         </div>
         <div class="panel-footer">
         <button id="updateLikes"type="button" class="btn btn-default">
@@ -18,7 +19,7 @@
             </span>
             <span id="like-counter"class="label label-primary">{{image.likes}}</span>
         </button>
-        
+
         </div>
     </div>
     <button id="comment-button" style="padding-bottom: 8px; padding-top: 11px; text-align: center; margin: auto;" type="submit" class="btn btn-default  btn-sm pull-right ">
@@ -28,7 +29,7 @@
         <div class="panel-heading" style="background: : white">
             <h3 class="panel-title">Comments</h3>
         </div>
-        <div class="panel-body">
+        <div class="panel-body comment-section">
             <div class="row">
                 <form id="comment-form" method="post" action="/images/{{ image.uniqueId }}/comment">
                     <div class="form-group col-sm-12">
@@ -47,14 +48,16 @@
             <hr class="style14">
             <ul class="media-list comment-list">
                 {{#each image.comments}}
-                    <li class="media">
+                    <li class="media comment-group">
                         <div class="media-left">
                             <a href="#">
-                                <img class="media-object" src="..." alt="...">
+                                <img class="media-object comment-gravatar" src="{{gravatarImg}}" alt="...">
                             </a>
+
                         </div>
                         <div class="media-body">
-                            <p>{{text}}</p>
+                            <p class="comment-text">{{text}}</p>
+                                <small class="text-muted pull-right"> {{timeago comments.timestamp }}</small>
                         </div>
                     </li>
                 {{/each}}
