@@ -12,7 +12,8 @@ module.exports = {
                 email: req.body.email,
                 name: req.body.name,
                 favoriteBook: req.body.favoriteBook,
-                password: req.body.password
+                password: req.body.password,
+                username: req.body.username
             };
             User.create(userData, function(err, user) {
                 if (err) {

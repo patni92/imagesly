@@ -74,6 +74,7 @@ module.exports = {
 
 
                 User.findById(req.session.userId, function(err, user) {
+                    view.image.comments.reverse();
                     view.gravatarImg = user.gravatarImg;
                     sidebar.sidebar(view, function() {
                         console.log(view);
@@ -113,6 +114,7 @@ module.exports = {
                             User.findById(req.session.userId, function(err, user) {
                                 comment.image_id = image._id;
                                 comment.gravatarImg = user.gravatarImg;
+                                comment.username = user.username;
                                 comment.save();
                                 image.comments.push(comment);
                                 image.save();

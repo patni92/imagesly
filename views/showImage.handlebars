@@ -50,14 +50,16 @@
                 {{#each image.comments}}
                     <li class="media comment-group">
                         <div class="media-left">
+
                             <a href="#">
+                                <span class="username">{{username}}</span>
                                 <img class="media-object comment-gravatar" src="{{gravatarImg}}" alt="...">
                             </a>
 
                         </div>
                         <div class="media-body">
                             <p class="comment-text">{{text}}</p>
-                                <small class="text-muted pull-right"> {{timeago comments.timestamp }}</small>
+                                <small class="text-muted pull-right"> {{timeago timestamp }}</small>
                         </div>
                     </li>
                 {{/each}}
