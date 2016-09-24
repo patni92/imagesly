@@ -4,6 +4,7 @@ var path = require('path');
 var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var sidebar = require('./sidebar');
+var Like = require("../models/like");
 
 
 
@@ -20,7 +21,7 @@ module.exports = {
                     storImage();
                 } else {
                     var ext = path.extname(req.files[0].originalname);
-                    
+
                     var filePath = req.files[0].path;
                     var tempName = req.files[0].filename;
 
@@ -39,6 +40,8 @@ module.exports = {
                             filename: imageName + ext,
                             description: req.body.description,
                             user: req.session.user
+
+
 
                         }).save();
                     } else {
@@ -67,6 +70,8 @@ module.exports = {
                 var view = {
                     image: image
                 };
+
+
 
                 sidebar.sidebar(view, function() {
                     console.log(view);
@@ -115,6 +120,7 @@ module.exports = {
     },
 
     like: function(req, res) {
+        var countlikes;
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage
@@ -124,17 +130,51 @@ module.exports = {
                 if (err) {
                     console.log(err);
                 }
-                console.log(image.likes);
-                image.likes = image.likes + 1;
-                image.save(function(err) {
+
+
+
+                Like.findOne({
+                    image: image._id,
+                    user: req.session.userId
+                }, function(err, likeObj) {
                     if (err) {
-                        res.json(err);
-                    } else {
-                        res.json({
-                            likes: image.likes
+                        console.log(err);
+                        return;
+                    };
+
+                    if(!likeObj) {
+                        Like.create({
+                            image: image._id,
+                            user: req.session.userId
                         });
+                        console.log("skapar doc")
+
+                        console.log(image.likes);
+                        image.likes =  image.likes + 1;
+
+
+
+                    } else {
+                        likeObj.remove();
+
+                        image.likes = image.likes - 1;
+                        console.log(image.likes);
+
                     }
+
+                    image.save(function(err) {
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.json({
+                                likes: image.likes
+                            });
+                        }
+                    });
+
                 });
+
+
             });
     }
 };
