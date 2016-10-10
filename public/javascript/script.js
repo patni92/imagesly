@@ -1,3 +1,8 @@
+// navigate to signup form instead of login     
+var hashVal = window.location.hash.split("#")[1];
+   if(hashVal == 'signup') {
+      $('#signupbox').show(); $('#loginbox').hide();
+   }
 var webEvents = {
     toogleComment: function() {
         var commentButton = document.getElementById("comment-button");

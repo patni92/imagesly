@@ -10,7 +10,9 @@ var moment = require("moment");
 var passport = require('passport');
 var expressSession = require('express-session');
 var config = require("../config.json");
-var User = require("../models/user");
+var flash = require("connect-flash");
+
+require('./passport')(passport);
 
 module.exports = function(app) {
 
@@ -20,10 +22,10 @@ module.exports = function(app) {
         saveUninitialized: false,
     }));
 
-    app.use(function(req, res, next) {
-        res.locals.currentUser = req.session.userId;
-        next();
-    });
+
+    app.use(passport.initialize());
+    app.use(passport.session());
+    app.use(flash());
 
 
 
@@ -55,7 +57,7 @@ module.exports = function(app) {
         app.use(errorHandler());
     }
 
-    routes(app);
+    routes(app, passport);
 
     app.engine('handlebars', exphbs.create({
         layoutsDir: app.get("views") + "/layouts",

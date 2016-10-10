@@ -10,10 +10,13 @@ app.set("port", process.env.PORT || 3000);
 
 app = config(app);
 
+
+
 app.use(function(err, req, res, next) {
-  console.error(err);
   res.status(500).send(err.message);
 });
+
+
 
 mongoose.connect('mongodb://localhost/imagesly');
 mongoose.connection.on('open', function () { console.log('Mongoose connected.'); });

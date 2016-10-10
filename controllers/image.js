@@ -11,7 +11,7 @@ var User = require("../models/user")
 
 module.exports = {
     newImage: function(req, res) {
-        function storImage() {
+        function storeImage() {
             var imageName = Math.random().toString(36).substr(2, 9);
 
             Image.findOne({
@@ -19,7 +19,7 @@ module.exports = {
             }, function(err, image) {
 
                 if (image) {
-                    storImage();
+                    storeImage();
                 } else {
                     var ext = path.extname(req.files[0].originalname);
 
@@ -40,7 +40,7 @@ module.exports = {
                             title: req.body.title,
                             filename: imageName + ext,
                             description: req.body.description,
-                            user: req.session.user
+                            user: req.session.passport.user
 
 
 
@@ -57,7 +57,9 @@ module.exports = {
             res.redirect('/image/' + imageName);
         }
 
-        storImage();
+         storeImage();
+
+
     },
 
     showImage: function(req, res) {
@@ -73,11 +75,16 @@ module.exports = {
                 };
 
 
-                User.findById(req.session.userId, function(err, user) {
-                    view.image.comments.reverse();
-                    view.gravatarImg = user.gravatarImg;
+
+                User.findById(req.session.passport.user, function(err, user) {
+
+
+
+
+                        view.gravatarImg = user.gravatarImg;
+
                     sidebar.sidebar(view, function() {
-                        console.log(view);
+
                         res.render('showImage', view);
                     });
                 });
@@ -111,12 +118,13 @@ module.exports = {
                         if (err) {
                             console.log(err);
                         } else {
-                            User.findById(req.session.userId, function(err, user) {
+                            User.findById(req.session.passport.user, function(err, user) {
+
                                 comment.image_id = image._id;
                                 comment.gravatarImg = user.gravatarImg;
                                 comment.username = user.username;
                                 comment.save();
-                                image.comments.push(comment);
+                                image.comments.unshift(comment);
                                 image.save();
                             })
                         }
@@ -143,7 +151,7 @@ module.exports = {
 
                 Like.findOne({
                     image: image._id,
-                    user: req.session.userId
+                    user: req.session.passport.user
                 }, function(err, likeObj) {
                     if (err) {
                         console.log(err);
@@ -153,9 +161,9 @@ module.exports = {
                     if(!likeObj) {
                         Like.create({
                             image: image._id,
-                            user: req.session.userId
+                            user: req.session.passport.user
                         });
-                        console.log("skapar doc")
+
 
                         console.log(image.likes);
                         image.likes =  image.likes + 1;
@@ -166,7 +174,7 @@ module.exports = {
                         likeObj.remove();
 
                         image.likes = image.likes - 1;
-                        console.log(image.likes);
+
 
                     }
 

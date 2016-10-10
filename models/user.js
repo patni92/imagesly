@@ -1,17 +1,27 @@
 var mongoose = require("mongoose");
 require("mongoose-type-email");
-var bcrypt = require("bcrypt");
 var  SALT_WORK_FACTOR = 10;
 var gravatar = require("gravatar");
+var findOrCreate = require('mongoose-findorcreate');
 
 var UserSchema = new mongoose.Schema({
     firstName: String,
     lastName: String,
-    username: { type: String, required: true,  unique: true},
-    email: { type: mongoose.SchemaTypes.Email, required: true,  unique: true},
-    password: { type: String, required: true },
-    gravatarImg: String
+    username: { type: String,   unique: true},
+    email: { type: mongoose.SchemaTypes.Email,  unique: true},
+    password: { type: String },
+    gravatarImg:  { type: String, default: "bob" },
+    fb: {
+		id: String,
+		access_token: String,
+		firstName: String,
+		lastName: String,
+		email: String,
+        token: String,
+        username: String
+	}
 });
+
 
 
 
@@ -33,21 +43,7 @@ UserSchema.statics.authenticate = function(email, password, callback) {
     });
 }
 
-UserSchema.pre("save", function(next) {
-    var user = this;
-    user.gravatarImg = gravatar.url(user.email);
-    if (user.isModified("password")) {
-        bcrypt.hash(user.password, SALT_WORK_FACTOR, function(err, hash) {
 
-            if (err) {
-                return next(err);
-            }
-
-            user.password = hash;
-            next();
-        });
-    }
-});
 
 var User = mongoose.model("User", UserSchema);
 

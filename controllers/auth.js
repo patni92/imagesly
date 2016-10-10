@@ -1,30 +1,44 @@
 var User = require("../models/user");
+var gravatar = require("gravatar");
+var bcrypt = require("bcrypt");
+var generateHash = function(password) {
+    return bcrypt.hashSync(password, bcrypt.genSaltSync(10), null);
+};
+
 module.exports = {
     register: function(req, res, next) {
 
         if (req.body.email && req.body.firstname && req.body.lastname && req.body.password && req.body.confirmPassword) {
 
             if (req.body.password !== req.body.confirmPassword) {
-                var err = new Error("password do not match");
-                return next(err);
+
+                 req.flash("error", "password don't match ");
+                 return res.redirect("/#signup");
+
             }
             var userData = {
                 email: req.body.email,
                 name: req.body.name,
-                favoriteBook: req.body.favoriteBook,
-                password: req.body.password,
-                username: req.body.username
+                password: generateHash(req.body.password),
+                username: req.body.username,
+                gravatarImg:  gravatar.url(req.body.email)
             };
             User.create(userData, function(err, user) {
                 if (err) {
+                    if(err.code === 11000) {
+                        req.flash("error", "Email already in use");
+                        return res.redirect("/#signup");
+                    }
+                    console.log(err.code);
                     return next(err);
                 } else {
-                    req.session.userId = user._id;
+                    req.session.passport = {user: user._id}
                     res.redirect("/");
                 }
             });
         } else {
-            console.log("something is missing");
+            req.flash("error", "Fill in all fields");
+            return res.redirect("/#signup" );
         }
 
     },
@@ -33,11 +47,11 @@ module.exports = {
         if (req.body.email && req.body.password) {
             User.authenticate(req.body.email, req.body.password, function(err, user) {
                 if (err || !user) {
-                    var error = new Error("Wring email or password");
-                    return next(error);
+                    req.flash("loginError", "Wrong email or password");
+                    return res.redirect("/");
                 } else {
-                    req.session.userId = user._id;
-                    console.log(req.session.userId)
+                    req.session.passport = {user: user._id}
+
                     return res.redirect("/");
                 }
             });
