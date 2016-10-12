@@ -1,7 +1,7 @@
 var User = require('../models/user');
 var LocalStrategy = require('passport-local').Strategy;
 var bCrypt = require("bcrypt");
-var fbConfig = require("../auth.js").facebook;
+var fbConfig = require("../authconfig.js").facebook;
 var FacebookStrategy = require('passport-facebook').Strategy;
 
 module.exports = function(passport) {
@@ -30,7 +30,7 @@ module.exports = function(passport) {
                 if (!user || !isValidPassword(user, password)) {
                     return done(null, false, req.flash('message', 'Wrong username or password'));
                 }
-                
+
                 return done(null, user);
             });
         }

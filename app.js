@@ -13,7 +13,7 @@ app = config(app);
 
 
 app.use(function(err, req, res, next) {
-  res.status(500).send(err.message);
+  res.status(400).send(err.message);
 });
 
 

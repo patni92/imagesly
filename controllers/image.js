@@ -10,7 +10,7 @@ var User = require("../models/user")
 
 
 module.exports = {
-    newImage: function(req, res) {
+    newImage: function(req, res, next) {
         function storeImage() {
             var imageName = Math.random().toString(36).substr(2, 9);
 
@@ -48,13 +48,18 @@ module.exports = {
                     } else {
                         fs.unlink(filePath, function() {
                             console.log('file removed');
+
                         });
+
+                        req.flash('error', 'Not a valid file extension');
+                        console.log(res.error);
+                        return res.redirect('/');
                     }
                 }
-
+                res.redirect('/image/' + imageName);
             });
 
-            res.redirect('/image/' + imageName);
+
         }
 
          storeImage();

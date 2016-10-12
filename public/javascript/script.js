@@ -1,8 +1,17 @@
-// navigate to signup form instead of login     
+// navigate to signup form instead of login
 var hashVal = window.location.hash.split("#")[1];
    if(hashVal == 'signup') {
       $('#signupbox').show(); $('#loginbox').hide();
    }
+
+   var myInput = document.getElementById('file-input');
+
+$(myInput).change(function()
+{
+    console.log('input changed to: ');
+    console.log(myInput);
+    document.querySelector(".file-name").textContent = myInput.value.split('\\').pop();
+});
 var webEvents = {
     toogleComment: function() {
         var commentButton = document.getElementById("comment-button");
