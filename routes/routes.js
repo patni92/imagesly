@@ -2,10 +2,11 @@ var express = require("express");
 var router = express.Router();
 var home = require("../controllers/home");
 var image = require("../controllers/image");
-var auth = require("../controllers/auth")
+var auth = require("../controllers/auth");
+var upload = require("../middleware/upload").upload;
 
 var isAuthenticated = function(req, res, next) {
-    
+
     var view = {};
 
     view.layout = "empty";
@@ -20,7 +21,7 @@ var isAuthenticated = function(req, res, next) {
 module.exports = function(app, passport) {
     app.use(router);
     router.get("/", isAuthenticated, home.index);
-    router.post("/", image.newImage);
+    router.post("/", upload, image.newImage);
     router.post("/register", auth.register);
     router.post("/login", passport.authenticate("local-login", {
         successRedirect: '/',

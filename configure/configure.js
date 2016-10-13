@@ -26,11 +26,11 @@ module.exports = function(app) {
     app.use(passport.initialize());
     app.use(passport.session());
     app.use(flash());
-    app.use(function(req, res, next){
-    res.locals.success = req.flash('success');
-    res.locals.error = req.flash('error');
-    next();
-});
+    app.use(function(req, res, next) {
+        res.locals.success = req.flash('success');
+        res.locals.error = req.flash('error');
+        next();
+    });
 
 
 
@@ -45,24 +45,19 @@ module.exports = function(app) {
     app.use(express.static(path.join(__dirname, "../public")));
 
 
-    var storage = multer.diskStorage({
-        destination: function(req, file, cb) {
-            cb(null, './public/uploads');
-        },
-
-    });
-
-    app.use(multer({
-        storage: storage
-    }).any());
-
-
-
-    if ("development" === app.get("env")) {
-        app.use(errorHandler());
-    }
 
     routes(app, passport);
+
+    app.use(function(err, req, res, next) {
+        if(err.message === "File too large") {
+            req.flash('error', 'Image is to big, can be up to 5 Megabyte');
+            return res.redirect('/');
+        }
+        console.error(err.message);
+        res.status(500).send('Something broke!');
+    });
+
+
 
     app.engine('handlebars', exphbs.create({
         layoutsDir: app.get("views") + "/layouts",

@@ -40,10 +40,10 @@ module.exports = function(passport) {
     clientID: fbConfig .clientID,
     clientSecret: fbConfig .clientSecret,
     callbackURL: fbConfig .callbackURL,
-    profileFields: ['id', 'email', 'first_name', 'last_name'],
+    profileFields: ['id', 'email', 'first_name', 'last_name', 'picture'],
   },
   function(token, refreshToken, profile, done) {
-      console.log(token);
+      console.log(profile.photos[0].value);
     process.nextTick(function() {
       User.findOne({ 'fb.id': profile.id }, function(err, user) {
         if (err)
@@ -53,8 +53,9 @@ module.exports = function(passport) {
         } else {
 
           var newUser = new User();
+          newUser.gravatarImg = profile.photos[0].value;
           newUser.fb.id = profile.id;
-          newUser.username = profile.givenName + "_" + profile.familyName;
+          newUser.username = profile.name.givenName + "_" + profile.name.familyName;
           newUser.fb.token = token;
           newUser.fb.name = profile.name.givenName + ' ' + profile.name.familyName;
           newUser.fb.email = (profile.emails[0].value || '').toLowerCase();

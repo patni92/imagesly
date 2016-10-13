@@ -12,9 +12,11 @@ app = config(app);
 
 
 
-app.use(function(err, req, res, next) {
-  res.status(400).send(err.message);
+app.use(function (err, req, res, next) {
+  console.error("baaaajsss");
+  res.status(500).send("kfdkdfk");
 });
+
 
 
 

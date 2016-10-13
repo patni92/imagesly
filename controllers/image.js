@@ -5,12 +5,12 @@ var fs = require('fs');
 var sanitizeHtml = require('sanitize-html');
 var sidebar = require('./sidebar');
 var Like = require("../models/like");
-var User = require("../models/user")
-
-
+var User = require("../models/user");
 
 module.exports = {
     newImage: function(req, res, next) {
+        
+
         function storeImage() {
             var imageName = Math.random().toString(36).substr(2, 9);
 
@@ -32,6 +32,7 @@ module.exports = {
                             imageName + ext,
                             function(err, file) {
                                 if (err) {
+
                                     console.log(err);
                                 }
                             });
@@ -62,7 +63,13 @@ module.exports = {
 
         }
 
-         storeImage();
+        if(req.body.title && req.body.description && req.files[0]) {
+             storeImage();
+        } else {
+            req.flash('error', 'Fill in all fields');
+            return res.redirect('/');
+        }
+
 
 
     },
@@ -110,7 +117,6 @@ module.exports = {
                 error: 'Invalid value'
             });
         } else {
-            res.json(cleanData);
             Image.findOne({
                     filename: {
                         $regex: req.params.idImage
@@ -131,6 +137,11 @@ module.exports = {
                                 comment.save();
                                 image.comments.unshift(comment);
                                 image.save();
+                                res.json(
+                                    {
+                                        data: cleanData,
+                                        username:comment.username
+                                    });
                             })
                         }
                     });

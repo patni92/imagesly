@@ -7,7 +7,7 @@
             <a href="#" class="thumbnail" style="border:none">
                 <img src="/uploads/{{image.filename}}">
             </a>
-            {{image.description}}
+            <p>{{image.description}}</p>
         </div>
         <div class="panel-footer">
         <button id="updateLikes"type="button" class="btn btn-default">
@@ -31,7 +31,7 @@
         </div>
         <div class="panel-body comment-section">
             <div class="row">
-                <form id="comment-form" method="post" action="/images/{{ image.uniqueId }}/comment">
+                <form id="comment-form" method="post" action="/image/{{ image.linkId }}/comment">
                     <div class="form-group col-sm-12">
                         <label class="col-sm-2 control-label" for="comment">Comment:</label>
                         <div class="col-sm-10">
@@ -47,6 +47,22 @@
             </div>
             <hr class="style14">
             <ul class="media-list comment-list">
+                <template id="template">
+                    <li class="media comment-group">
+                        <div class="media-left">
+
+                            <a href="#">
+                                <span class="username">{{username}}</span>
+                                <img class="media-object comment-gravatar" src="{{gravatarImg}}" alt="...">
+                            </a>
+
+                        </div>
+                        <div class="media-body">
+                            <p class="comment-text">{{text}}</p>
+                                <small class="text-muted pull-right"> {{timeago timestamp }}</small>
+                        </div>
+                    </li>
+                </template>
                 {{#each image.comments}}
                     <li class="media comment-group">
                         <div class="media-left">

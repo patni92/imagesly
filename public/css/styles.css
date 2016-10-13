@@ -2,10 +2,40 @@ body {
   background: #fafafa;
 }
 
+h1 {
+font-family: 'Droid Serif', Georgia, Times, serif;
+font-size: 50px;
+line-height: 65px;
+color: white;
+}
+
+h1 a:hover {
+    text-decoration: none;
+}
+
+h2 {
+    font-family: 'Droid Serif', Georgia, Times, serif;
+}
+
+p {
+	font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+	font-size: 15px;
+	line-height: 25px;
+    color: black;
+}
+
+.panel-title {
+    font-size: 21px;
+}
+
 .logoutbutton {
-    margin-top: -40px;
+    margin-top: -50px;
     margin-right: 50px;
 
+}
+
+.alert-danger {
+    text-align: center;
 }
 
 .file-name {
@@ -27,7 +57,7 @@ body {
     background: white;
     padding: 13px;
     border-radius: rem(3);
-  box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
 }
 
 .comment-gravatar {
@@ -46,7 +76,7 @@ body {
 }
 
 .gravatar-img {
-    margin-top: -47px;
+    margin-top: -57px;
     border-radius: 100px;
     margin-right: 140px;
     width: 45px;
@@ -60,8 +90,16 @@ body {
 
 .page-header {
   background: #fff;
-  height: 80px;
+  height: 100px;
   margin-top: 0px;
+
+}
+
+.page-footer {
+  background: #fff;
+  height: 80px;
+ text-align: center;
+
 
 }
 

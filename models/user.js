@@ -10,7 +10,7 @@ var UserSchema = new mongoose.Schema({
     username: { type: String,   unique: true},
     email: { type: mongoose.SchemaTypes.Email,  unique: true},
     password: { type: String },
-    gravatarImg:  { type: String, default: "bob" },
+    gravatarImg:  { type: String, default: "" },
     fb: {
 		id: String,
 		access_token: String,
