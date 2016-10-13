@@ -21,7 +21,7 @@ var isAuthenticated = function(req, res, next) {
 module.exports = function(app, passport) {
     app.use(router);
     router.get("/", isAuthenticated, home.index);
-    router.post("/", upload, image.newImage);
+    router.post("/", isAuthenticated, upload, image.newImage);
     router.post("/register", auth.register);
     router.post("/login", passport.authenticate("local-login", {
         successRedirect: '/',
@@ -37,8 +37,8 @@ module.exports = function(app, passport) {
 }));
 
 
-    router.get("/image/:idImage", image.showImage);
-    router.post("/image/:idImage/comment", image.newComment);
-    router.post("/image/:idImage/like", image.like);
+    router.get("/image/:idImage", isAuthenticated, image.showImage);
+    router.post("/image/:idImage/comment", isAuthenticated, image.newComment);
+    router.post("/image/:idImage/like", isAuthenticated,  image.like);
 
 };
