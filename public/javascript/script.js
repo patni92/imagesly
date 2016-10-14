@@ -18,11 +18,18 @@ var webEvents = {
         if (commentButton) {
             commentButton.addEventListener("click", function() {
                 var element = document.getElementById("comment-form");
+                var hrLine = document.querySelector(".style14");
 
-                if (element.style.display == "block")
-                    element.style.display = "none";
-                else
+                if (element.style.display == "block") {
+
+                        element.style.display = "none";
+                        hrLine.style.display = "none";
+                }
+                else {
                     element.style.display = "block";
+                    hrLine.style.display = "block";
+                }
+
             });
         }
     },

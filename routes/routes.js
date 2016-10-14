@@ -3,25 +3,14 @@ var router = express.Router();
 var home = require("../controllers/home");
 var image = require("../controllers/image");
 var auth = require("../controllers/auth");
-var upload = require("../middleware/upload").upload;
+var middleware = require("../middleware/middlewareObj");
 
-var isAuthenticated = function(req, res, next) {
 
-    var view = {};
-
-    view.layout = "empty";
-    view.error = req.flash('error');
-    view.message = req.flash("message");
-
-    if (req.isAuthenticated())
-        return next();
-    res.render("login", view);
-}
 
 module.exports = function(app, passport) {
     app.use(router);
-    router.get("/", isAuthenticated, home.index);
-    router.post("/", isAuthenticated, upload, image.newImage);
+    router.get("/", middleware.isAuthenticated, home.index);
+    router.post("/", middleware.isAuthenticated, middleware.uploadFile, image.newImage);
     router.post("/register", auth.register);
     router.post("/login", passport.authenticate("local-login", {
         successRedirect: '/',
@@ -37,8 +26,9 @@ module.exports = function(app, passport) {
 }));
 
 
-    router.get("/image/:idImage", isAuthenticated, image.showImage);
-    router.post("/image/:idImage/comment", isAuthenticated, image.newComment);
-    router.post("/image/:idImage/like", isAuthenticated,  image.like);
+    router.get("/image/:idImage", middleware.isAuthenticated, image.showImage);
+    router.delete("/image/:idImage", middleware.isAuthenticated, middleware.checkImageOwnership, image.deleteImage);
+    router.post("/image/:idImage/comment", middleware.isAuthenticated, image.newComment);
+    router.post("/image/:idImage/like", middleware.isAuthenticated,  image.like);
 
 };

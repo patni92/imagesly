@@ -9,7 +9,7 @@ var User = require("../models/user");
 
 module.exports = {
     newImage: function(req, res, next) {
-        
+
 
         function storeImage() {
             var imageName = Math.random().toString(36).substr(2, 9);
@@ -63,8 +63,8 @@ module.exports = {
 
         }
 
-        if(req.body.title && req.body.description && req.files[0]) {
-             storeImage();
+        if (req.body.title && req.body.description && req.files[0]) {
+            storeImage();
         } else {
             req.flash('error', 'Fill in all fields');
             return res.redirect('/');
@@ -74,7 +74,17 @@ module.exports = {
 
     },
 
-    showImage: function(req, res) {
+    deleteImage: function(req, res) {
+        Image.findOneAndRemove({
+            filename: {
+                $regex: req.params.idImage
+            }
+        }, function(err, info) {
+            res.redirect('/');
+        });
+    },
+
+        showImage: function(req, res) {
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage
@@ -93,10 +103,11 @@ module.exports = {
 
 
 
-                        view.gravatarImg = user.gravatarImg;
+                    view.gravatarImg = user.gravatarImg;
 
                     sidebar.sidebar(view, function() {
-
+                        console.log("hello");
+                        console.log(view);
                         res.render('showImage', view);
                     });
                 });
@@ -137,11 +148,10 @@ module.exports = {
                                 comment.save();
                                 image.comments.unshift(comment);
                                 image.save();
-                                res.json(
-                                    {
-                                        data: cleanData,
-                                        username:comment.username
-                                    });
+                                res.json({
+                                    data: cleanData,
+                                    username: comment.username
+                                });
                             })
                         }
                     });
@@ -174,7 +184,7 @@ module.exports = {
                         return;
                     };
 
-                    if(!likeObj) {
+                    if (!likeObj) {
                         Like.create({
                             image: image._id,
                             user: req.session.passport.user
@@ -182,7 +192,7 @@ module.exports = {
 
 
                         console.log(image.likes);
-                        image.likes =  image.likes + 1;
+                        image.likes = image.likes + 1;
 
 
 

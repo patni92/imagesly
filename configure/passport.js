@@ -24,13 +24,16 @@ module.exports = function(passport) {
             User.findOne({
                 email: email
             }, function(err, user) {
+                
                 if (err) {
                     return done(err);
                 }
                 if (!user || !isValidPassword(user, password)) {
+
                     return done(null, false, req.flash('message', 'Wrong username or password'));
                 }
-
+                user = user.toObject();
+                delete user["password"];
                 return done(null, user);
             });
         }

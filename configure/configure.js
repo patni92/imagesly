@@ -38,7 +38,7 @@ module.exports = function(app) {
         "extended": true
     }));
     app.use(bodyparser.json());
-    app.use(methodOverride());
+    app.use(methodOverride('_method'));
 
 
 
