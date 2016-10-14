@@ -75,14 +75,35 @@ module.exports = {
     },
 
     deleteImage: function(req, res) {
-        Image.findOneAndRemove({
+        Image.findOne({
             filename: {
                 $regex: req.params.idImage
             }
-        }, function(err, info) {
-            res.redirect('/');
-        });
+        }, function(err, image) {
+            if(err) {
+                return next(err);
+            } if(image) {
+                Comment.remove({image_id: image._id}, function(err, info) {
+                    if(err) {
+                        return next(err);
+                    }
+
+                    Image.remove({_id: image._id}, function(err, inf) {
+                        if(err) {
+                            return next(err);
+                        }
+                        res.redirect("/");
+                    })
+                })
+            } else {
+                return res.render("/");
+            }
+
+
+
+        })
     },
+
 
         showImage: function(req, res) {
         Image.findOne({
@@ -107,8 +128,7 @@ module.exports = {
                     view.currentUser = req.session.passport.user;
 
                     sidebar.sidebar(view, function() {
-                        console.log("hello");
-                        console.log(view);
+
                         res.render('showImage', view);
                     });
                 });

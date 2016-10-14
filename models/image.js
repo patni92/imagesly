@@ -1,5 +1,6 @@
 var mongoose = require("mongoose");
 var path = require("path");
+var Comment = ("./comment");
 var Image = new mongoose.Schema({
     title: String,
     filename: String,
@@ -14,6 +15,7 @@ var Image = new mongoose.Schema({
     date: Date,
 
 });
+
 
 Image.virtual('linkId').get(function() {
     return this.filename.replace(path.extname(this.filename), "");
