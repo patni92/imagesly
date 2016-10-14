@@ -104,6 +104,7 @@ module.exports = {
 
 
                     view.gravatarImg = user.gravatarImg;
+                    view.currentUser = req.session.passport.user;
 
                     sidebar.sidebar(view, function() {
                         console.log("hello");

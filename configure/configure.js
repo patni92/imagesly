@@ -66,6 +66,12 @@ module.exports = function(app) {
         helpers: {
             timeago: function(timestamp) {
                 return moment(timestamp).startOf("minute").fromNow();
+            },
+            isOwner: function(object) {
+
+                console.log(object.image.user);
+                console.log(object.currentUser);
+                return object.image.user.toString() === object.currentUser.toString();
             }
         }
 

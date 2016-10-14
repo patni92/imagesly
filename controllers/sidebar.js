@@ -11,7 +11,8 @@ module.exports = {
                 console.log(Err);
             } else {
                 view.popularImages = images;
-                var testArray = [];
+
+
 
                 Comment.find({}, {}, {
                     limit: 6,
@@ -25,7 +26,7 @@ module.exports = {
                     } else {
                         var testArray = [];
 
-                        list = [];
+                        var list = [];
 
                         function asyncLoop(i, callback) {
                             if (i < comments.length) {

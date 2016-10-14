@@ -7,7 +7,7 @@ module.exports = {
     index: function(req, res) {
         var view = {};
 
-            Image.find({}, function(err, images) {
+            Image.find({}).limit(3).sort({_id:-1}).exec( function(err, images) {
                 if (err) {
                     console.log(err);
                 }
