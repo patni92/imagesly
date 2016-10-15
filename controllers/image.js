@@ -39,10 +39,10 @@ module.exports = {
                                 }
 
                                 sharp('./public/uploads/' +
-                                    imageName + ext)
+                                        imageName + ext)
                                     .resize(300)
                                     .toFile("./public/uploads/thumbnails/" + imageName + ext, function(err, info) {
-                                        if(err) {
+                                        if (err) {
                                             console.log(err);
                                         } else {
                                             console.log(info);
@@ -106,12 +106,29 @@ module.exports = {
                         return next(err);
                     }
 
+                    console.log(image);
+
+                    fs.unlink('./public/uploads/' + image.filename, function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        console.log("File deleted successfully!");
+                    });
+
+                    fs.unlink('./public/uploads/thumbnails/' + image.filename, function(err) {
+                        if (err) {
+                            return next(err);
+                        }
+                        console.log("File deleted successfully!");
+                    });
+
                     Image.remove({
                         _id: image._id
                     }, function(err, inf) {
                         if (err) {
                             return next(err);
                         }
+
                         res.redirect("/");
                     })
                 })

@@ -51,12 +51,19 @@ module.exports = function(app) {
     routes(app, passport);
 
     app.use(function(err, req, res, next) {
-        if(err.message === "File too large") {
+        if (err.message === "File too large") {
             req.flash('error', 'Image is to big, can be up to 5 Megabyte');
             return res.redirect('/');
         }
+
         console.error(err.message);
         res.status(500).send('Something broke!');
+    });
+
+    app.use(function(req, res, next) {
+        var view = {};
+        view.layout = "empty";
+        res.render("404page", view);
     });
 
 
