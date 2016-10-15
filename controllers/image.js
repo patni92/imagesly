@@ -6,6 +6,8 @@ var sanitizeHtml = require('sanitize-html');
 var sidebar = require('./sidebar');
 var Like = require("../models/like");
 var User = require("../models/user");
+var sharp = require("sharp");
+
 
 module.exports = {
     newImage: function(req, res, next) {
@@ -30,11 +32,24 @@ module.exports = {
                         ext === '.jpg' || ext === '.gif') {
                         fs.rename(filePath, './public/uploads/' +
                             imageName + ext,
-                            function(err, file) {
+                            function(err) {
                                 if (err) {
 
                                     console.log(err);
                                 }
+
+                                sharp('./public/uploads/' +
+                                    imageName + ext)
+                                    .resize(300)
+                                    .toFile("./public/uploads/thumbnails/" + imageName + ext, function(err, info) {
+                                        if(err) {
+                                            console.log(err);
+                                        } else {
+                                            console.log(info);
+                                        }
+                                    })
+
+
                             });
 
                         var newImage = new Image({
@@ -48,13 +63,13 @@ module.exports = {
                         }).save();
                     } else {
                         fs.unlink(filePath, function() {
-                            console.log('file removed');
+                            req.flash('error', 'Not a valid file extension');
+                            console.log(res.error);
+                            return res.redirect('/');
 
                         });
 
-                        req.flash('error', 'Not a valid file extension');
-                        console.log(res.error);
-                        return res.redirect('/');
+
                     }
                 }
                 res.redirect('/image/' + imageName);
@@ -80,16 +95,21 @@ module.exports = {
                 $regex: req.params.idImage
             }
         }, function(err, image) {
-            if(err) {
+            if (err) {
                 return next(err);
-            } if(image) {
-                Comment.remove({image_id: image._id}, function(err, info) {
-                    if(err) {
+            }
+            if (image) {
+                Comment.remove({
+                    image_id: image._id
+                }, function(err, info) {
+                    if (err) {
                         return next(err);
                     }
 
-                    Image.remove({_id: image._id}, function(err, inf) {
-                        if(err) {
+                    Image.remove({
+                        _id: image._id
+                    }, function(err, inf) {
+                        if (err) {
                             return next(err);
                         }
                         res.redirect("/");
@@ -105,7 +125,7 @@ module.exports = {
     },
 
 
-        showImage: function(req, res) {
+    showImage: function(req, res) {
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage

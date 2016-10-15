@@ -12,6 +12,7 @@ var expressSession = require('express-session');
 var config = require("../config.json");
 var flash = require("connect-flash");
 
+
 require('./passport')(passport);
 
 module.exports = function(app) {
@@ -46,6 +47,7 @@ module.exports = function(app) {
 
 
 
+
     routes(app, passport);
 
     app.use(function(err, req, res, next) {
@@ -59,6 +61,9 @@ module.exports = function(app) {
 
 
 
+
+
+
     app.engine('handlebars', exphbs.create({
         layoutsDir: app.get("views") + "/layouts",
         defaultLayout: "main",
@@ -67,10 +72,9 @@ module.exports = function(app) {
             timeago: function(timestamp) {
                 return moment(timestamp).startOf("minute").fromNow();
             },
-            isOwner: function(object) {
+            isOwnerImage: function(object) {
 
-                console.log(object.image.user);
-                console.log(object.currentUser);
+
                 return object.image.user.toString() === object.currentUser.toString();
             }
         }

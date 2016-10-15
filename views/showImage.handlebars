@@ -1,7 +1,7 @@
 <div>
     <div class="panel panel-primary">
         <div class="panel-heading">
-            {{#if  (isOwner this) }}
+            {{#if  (isOwnerImage this) }}
             <form style="display:inline;" id="delete-form" action="/image/{{image.linkId}}?_method=DELETE" method="POST">
                 <button class="btn btn-danger btn-xs pull-right" ><i class="fa fa-times" aria-hidden="true"></i></button>
             </form>
