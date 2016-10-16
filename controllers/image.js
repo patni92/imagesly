@@ -238,7 +238,8 @@ module.exports = {
                                 image.save();
                                 res.json({
                                     data: cleanData,
-                                    username: comment.username
+                                    username: comment.username,
+                                    link: "/image/" + image.linkId + "/comment/"  + comment._id + "?_method=DELETE"
                                 });
                             })
                         }

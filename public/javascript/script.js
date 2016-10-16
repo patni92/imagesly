@@ -60,7 +60,10 @@ var webEvents = {
                 var htmlContent = '<li class="media comment-group"><div class="media-left">';
                 htmlContent += '<a href="#">' + '<span class="username">' + response.username + '</span>'+ '<img class="media-object comment-gravatar" src="' + imgSrc + '" alt="...">';
                 htmlContent +=   '</a>' + '</div> <div class="media-body">';
+                htmlContent += '<form style="display:inline;" id="delete-form" action="' + response.link +'" method="POST">'
+                htmlContent += '<button class="btn btn-danger btn-xs pull-right delete-comment" ><i class="fa fa-times" aria-hidden="true"></i></button></form>'
                 htmlContent += '<p class="comment-text">' + response.data + '</p>' + '<small class="text-muted pull-right"> a few seconds ago</small>' + '</div></li>';
+
                 var commentList = document.querySelector(".comment-list");
                 htmlContent += commentList.innerHTML;
                 commentList.innerHTML = htmlContent;
