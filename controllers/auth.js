@@ -25,8 +25,9 @@ module.exports = {
             };
             User.create(userData, function(err, user) {
                 if (err) {
+                    console.log(err.message);
                     if(err.code === 11000) {
-                        req.flash("error", "Email already in use");
+                        req.flash("error", "Email or username already in use");
                         return res.redirect("/#signup");
                     }
                     console.log(err.code);
@@ -37,6 +38,8 @@ module.exports = {
                 }
             });
         } else {
+
+            console.log(res.error);
             req.flash("error", "Fill in all fields");
             return res.redirect("/#signup" );
         }

@@ -14,7 +14,7 @@ module.exports = {
 
 
         function storeImage() {
-            var imageName = Math.random().toString(36).substr(2, 9);
+            var imageName = "e" + Math.random().toString(36).substr(2, 9);
 
             Image.findOne({
                 filname: imageName
@@ -32,37 +32,37 @@ module.exports = {
                         ext === '.jpg' || ext === '.gif') {
 
 
-                                sharp(filePath)
-                                    .resize(800)
-                                    .toFile("./public/uploads/e" + imageName + ext, function(err, info) {
-                                        if (err) {
-                                            return next(err);
-                                        } else {
-                                            sharp.cache({
-                                                files: 0
-                                            });
-                                            sharp.cache(false);
-                                            sharp(filePath)
-                                                .resize(300)
-                                                .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err, info) {
+                        sharp(filePath)
+                            .resize(800)
+                            .toFile("./public/uploads/e" + imageName + ext, function(err, info) {
+                                if (err) {
+                                    return next(err);
+                                } else {
+                                    sharp.cache({
+                                        files: 0
+                                    });
+                                    sharp.cache(false);
+                                    sharp(filePath)
+                                        .resize(300)
+                                        .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err, info) {
+                                            if (err) {
+                                                return next(err);
+                                            } else {
+                                                fs.unlink(filePath, function(err) {
                                                     if (err) {
                                                         return next(err);
-                                                    } else {
-                                                        fs.unlink(filePath, function(err) {
-                                                            if (err) {
-                                                                return next(err);
-                                                            }
-                                                            return res.redirect('/image/' + imageName);
-                                                        });
-
-
                                                     }
-                                                })
+                                                    return res.redirect('/image/' + imageName);
+                                                });
+
+
+                                            }
+                                        })
 
 
 
-                                        }
-                                    })
+                                }
+                            })
 
 
 
@@ -190,6 +190,7 @@ module.exports = {
 
 
                     view.gravatarImg = user.gravatarImg;
+
                     view.currentUser = req.session.passport.user;
 
                     sidebar.sidebar(view, function() {
@@ -231,6 +232,7 @@ module.exports = {
                                 comment.image_id = image._id;
                                 comment.gravatarImg = user.gravatarImg;
                                 comment.username = user.username;
+                                comment.user_id = user._id;
                                 comment.save();
                                 image.comments.unshift(comment);
                                 image.save();
@@ -244,6 +246,29 @@ module.exports = {
 
                 });
         }
+
+    },
+
+    deleteComment: function(req, res) {
+        console.log("hello from deleteComment");
+
+
+
+            Image.update({}, {
+                $pull: {
+
+                    comments: req.params.comment_id
+                }
+            }, {
+                multi: true
+            }, function(err) {
+                Comment.remove({_id: req.params.comment_id}, function(err) {
+                    if(err){console.log(err);}
+                    res.redirect("/image/" + req.params.idImage);
+                })
+            })
+
+
 
     },
 

@@ -24,13 +24,13 @@ module.exports = function(passport) {
             User.findOne({
                 email: email
             }, function(err, user) {
-                
+
                 if (err) {
                     return done(err);
                 }
                 if (!user || !isValidPassword(user, password)) {
 
-                    return done(null, false, req.flash('message', 'Wrong username or password'));
+                    return done(null, false, req.flash('login-err', 'Wrong username or password'));
                 }
                 user = user.toObject();
                 delete user["password"];
@@ -58,7 +58,7 @@ module.exports = function(passport) {
           var newUser = new User();
           newUser.gravatarImg = profile.photos[0].value;
           newUser.fb.id = profile.id;
-          newUser.username = profile.name.givenName + "_" + profile.name.familyName;
+          newUser.username = profile.name.givenName + "_" + profile.name.familyName + Math.floor((Math.random() * 999) + 1);;
           newUser.fb.token = token;
           newUser.fb.name = profile.name.givenName + ' ' + profile.name.familyName;
           newUser.fb.email = (profile.emails[0].value || '').toLowerCase();

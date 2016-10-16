@@ -5,6 +5,10 @@ var Comment = new mongoose.Schema({
     timestamp: { type: Date, "default": Date.now },
     gravatarImg: String,
     username:  String,
+    user_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
     image_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Image"

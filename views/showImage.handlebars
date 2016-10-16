@@ -58,15 +58,26 @@
 
                 {{#each image.comments}}
                     <li class="media comment-group">
+
                         <div class="media-left">
 
+
+
                             <a href="#">
+
                                 <span class="username">{{username}}</span>
                                 <img class="media-object comment-gravatar" src="{{gravatarImg}}" alt="...">
                             </a>
 
+
                         </div>
                         <div class="media-body">
+                            {{#if  (isOwnerComment this ../this.currentUser) }}
+                            <form style="display:inline;" id="delete-form" action="/image/{{../image.linkId}}/comment/{{_id}}?_method=DELETE" method="POST">
+                                <button class="btn btn-danger btn-xs pull-right delete-comment" ><i class="fa fa-times" aria-hidden="true"></i></button>
+                            </form>
+                             {{/if}}
+
                             <p class="comment-text">{{text}}</p>
                             <small class="text-muted pull-right"> {{timeago timestamp }}</small>
                         </div>

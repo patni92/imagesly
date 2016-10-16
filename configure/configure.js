@@ -41,6 +41,7 @@ module.exports = function(app) {
     app.use(passport.session());
     app.use(flash());
     app.use(function(req, res, next) {
+        res.locals.message = req.flash("login-err");
         res.locals.success = req.flash('success');
         res.locals.error = req.flash('error');
         next();
@@ -96,6 +97,11 @@ module.exports = function(app) {
 
 
                 return object.image.user.toString() === object.currentUser.toString();
+            },
+            isOwnerComment: function(object, currentUser) {
+
+
+                return object.user_id.toString() === currentUser.toString();
             }
         }
 

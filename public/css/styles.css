@@ -9,6 +9,11 @@ line-height: 65px;
 color: white;
 }
 
+.delete-comment {
+    font-size: 8px;
+    
+}
+
 h1 a:hover {
     text-decoration: none;
 }

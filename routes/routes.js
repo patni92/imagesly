@@ -29,6 +29,7 @@ module.exports = function(app, passport) {
     router.get("/image/:idImage", middleware.isAuthenticated, image.showImage);
     router.delete("/image/:idImage", middleware.isAuthenticated, middleware.checkImageOwnership, image.deleteImage);
     router.post("/image/:idImage/comment", middleware.isAuthenticated, image.newComment);
+    router.delete("/image/:idImage/comment/:comment_id", middleware.isAuthenticated, middleware.checkCommentOwnership, image.deleteComment);
     router.post("/image/:idImage/like", middleware.isAuthenticated,  image.like);
 
 };
