@@ -4,7 +4,7 @@ var app = express();
 var mongoose = require("mongoose");
 
 
-app.set("port", process.env.PORT || 3000);
+
 
 
 
@@ -12,16 +12,8 @@ app = config(app);
 
 
 
-app.use(function (err, req, res, next) {
-  console.error("baaaajsss");
-  res.status(500).send("kfdkdfk");
-});
 
 
-
-
-mongoose.connect('mongodb://localhost/imagesly');
-mongoose.connection.on('open', function () { console.log('Mongoose connected.'); });
 
 
 

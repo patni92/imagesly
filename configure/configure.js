@@ -11,16 +11,29 @@ var passport = require('passport');
 var expressSession = require('express-session');
 var config = require("../config.json");
 var flash = require("connect-flash");
+var MongoStore = require("connect-mongo")(expressSession);
+var mongoose = require("mongoose");
 
 
 require('./passport')(passport);
 
 module.exports = function(app) {
 
+    app.set("port", process.env.PORT || 3000);
+
+
+    mongoose.connect('mongodb://localhost/imagesly');
+    mongoose.connection.on('open', function () { console.log('Mongoose connected.'); });
+
+
     app.use(expressSession({
         secret: config.sessionSecret,
-        resave: false,
-        saveUninitialized: false,
+        resave: true,
+        saveUninitialized: true,
+        store: new MongoStore({
+            mongooseConnection: mongoose.connection,
+            ttl:  120 * 60
+        })
     }));
 
 

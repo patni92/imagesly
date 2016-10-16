@@ -62,8 +62,10 @@ module.exports = {
     },
 
     logout: function(req, res, next) {
-        req.session.destroy(function(err) {
-            return res.redirect("/");
-        })
+        if(req.session) {
+                req.logout();
+                return res.redirect("/");
+        }
+
     }
 };

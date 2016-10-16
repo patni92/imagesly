@@ -78,12 +78,23 @@ module.exports = {
 
         }
 
+        if(req.body.title.length > 70) {
+            req.flash("error", "Title to long - maxium length is 70 characters")
+            return res.redirect('/');
+        } else if(req.body.description.length > 600) {
+            req.flash("error", "Description is to long - maxium length is 600 characters")
+            return res.redirect('/');
+        }
+
         if (req.body.title && req.body.description && req.files[0]) {
             storeImage();
         } else {
             req.flash('error', 'Fill in all fields');
             return res.redirect('/');
         }
+
+        console.log(req.body.title.length );
+
 
 
 
@@ -142,14 +153,16 @@ module.exports = {
     },
 
 
-    showImage: function(req, res) {
+    showImage: function(req, res, next) {
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage
                 }
             })
             .populate('comments').exec(function(err, image) {
-
+                if(! image) {
+                    return next();
+                }
                 var view = {
                     image: image
                 };
