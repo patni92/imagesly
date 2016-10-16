@@ -30,31 +30,46 @@ module.exports = {
 
                     if (ext === '.png' || ext === '.jpeg' ||
                         ext === '.jpg' || ext === '.gif') {
-                        fs.rename(filePath, './public/uploads/' +
-                            imageName + ext,
-                            function(err) {
-                                if (err) {
 
-                                    console.log(err);
-                                }
 
-                                sharp('./public/uploads/' +
-                                        imageName + ext)
-                                    .resize(300)
-                                    .toFile("./public/uploads/thumbnails/" + imageName + ext, function(err, info) {
+                                sharp(filePath)
+                                    .resize(800)
+                                    .toFile("./public/uploads/e" + imageName + ext, function(err, info) {
                                         if (err) {
-                                            console.log(err);
+                                            return next(err);
                                         } else {
-                                            console.log(info);
+                                            sharp.cache({
+                                                files: 0
+                                            });
+                                            sharp.cache(false);
+                                            sharp(filePath)
+                                                .resize(300)
+                                                .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err, info) {
+                                                    if (err) {
+                                                        return next(err);
+                                                    } else {
+                                                        fs.unlink(filePath, function(err) {
+                                                            if (err) {
+                                                                return next(err);
+                                                            }
+                                                            return res.redirect('/image/' + imageName);
+                                                        });
+
+
+                                                    }
+                                                })
+
+
+
                                         }
                                     })
 
 
-                            });
+
 
                         var newImage = new Image({
                             title: req.body.title,
-                            filename: imageName + ext,
+                            filename: "e" + imageName + ext,
                             description: req.body.description,
                             user: req.session.passport.user
 
@@ -72,16 +87,16 @@ module.exports = {
 
                     }
                 }
-                res.redirect('/image/' + imageName);
+
             });
 
 
         }
 
-        if(req.body.title.length > 70) {
+        if (req.body.title.length > 70) {
             req.flash("error", "Title to long - maxium length is 70 characters")
             return res.redirect('/');
-        } else if(req.body.description.length > 600) {
+        } else if (req.body.description.length > 600) {
             req.flash("error", "Description is to long - maxium length is 600 characters")
             return res.redirect('/');
         }
@@ -93,7 +108,7 @@ module.exports = {
             return res.redirect('/');
         }
 
-        console.log(req.body.title.length );
+        console.log(req.body.title.length);
 
 
 
@@ -160,7 +175,7 @@ module.exports = {
                 }
             })
             .populate('comments').exec(function(err, image) {
-                if(! image) {
+                if (!image) {
                     return next();
                 }
                 var view = {
