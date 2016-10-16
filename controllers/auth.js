@@ -12,8 +12,8 @@ module.exports = {
 
             if (req.body.password !== req.body.confirmPassword) {
 
-                 req.flash("error", "password don't match ");
-                 return res.redirect("/#signup");
+                req.flash("error", "password don't match ");
+                return res.redirect("/#signup");
 
             }
             var userData = {
@@ -21,19 +21,22 @@ module.exports = {
                 name: req.body.name,
                 password: generateHash(req.body.password),
                 username: req.body.username,
-                gravatarImg:  gravatar.url(req.body.email)
+                gravatarImg: gravatar.url(req.body.email)
             };
             User.create(userData, function(err, user) {
                 if (err) {
-                    console.log(err.message);
-                    if(err.code === 11000) {
+
+                    if (err.code === 11000) {
                         req.flash("error", "Email or username already in use");
                         return res.redirect("/#signup");
                     }
-                    console.log(err.code);
+
                     return next(err);
                 } else {
-                    req.session.passport = {user: user._id}
+                    req.session.passport = {
+                        user: user._id
+                    };
+
                     res.redirect("/");
                 }
             });
@@ -41,33 +44,15 @@ module.exports = {
 
             console.log(res.error);
             req.flash("error", "Fill in all fields");
-            return res.redirect("/#signup" );
+            return res.redirect("/#signup");
         }
 
     },
 
-    login: function(req, res, next) {
-        if (req.body.email && req.body.password) {
-            User.authenticate(req.body.email, req.body.password, function(err, user) {
-                if (err || !user) {
-                    req.flash("loginError", "Wrong email or password");
-                    return res.redirect("/");
-                } else {
-                    req.session.passport = {user: user._id}
-
-                    return res.redirect("/");
-                }
-            });
-        } else {
-            var error = new Error("Email and password are required")
-            return next(error);
-        }
-    },
-
-    logout: function(req, res, next) {
-        if(req.session) {
-                req.logout();
-                return res.redirect("/");
+    logout: function(req, res) {
+        if (req.session) {
+            req.logout();
+            return res.redirect("/");
         }
 
     }

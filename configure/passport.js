@@ -1,8 +1,12 @@
-var User = require('../models/user');
-var LocalStrategy = require('passport-local').Strategy;
+var User = require("../models/user");
+var LocalStrategy = require("passport-local").Strategy;
 var bCrypt = require("bcrypt");
 var fbConfig = require("../authconfig.js").facebook;
-var FacebookStrategy = require('passport-facebook').Strategy;
+var FacebookStrategy = require("passport-facebook").Strategy;
+
+var isValidPassword = function(user, password) {
+    return bCrypt.compareSync(password, user.password);
+};
 
 module.exports = function(passport) {
     passport.serializeUser(function(user, done) {
@@ -28,10 +32,11 @@ module.exports = function(passport) {
                 if (err) {
                     return done(err);
                 }
-                if (!user || !isValidPassword(user, password)) {
 
-                    return done(null, false, req.flash('login-err', 'Wrong username or password'));
+                if (!user || !isValidPassword(user, password)) {
+                    return done(null, false, req.flash("login-err", "Wrong username or password"));
                 }
+
                 user = user.toObject();
                 delete user["password"];
                 return done(null, user);
@@ -40,43 +45,42 @@ module.exports = function(passport) {
     ));
 
     passport.use(new FacebookStrategy({
-    clientID: fbConfig .clientID,
-    clientSecret: fbConfig .clientSecret,
-    callbackURL: fbConfig .callbackURL,
-    profileFields: ['id', 'email', 'first_name', 'last_name', 'picture'],
-  },
-  function(token, refreshToken, profile, done) {
-      console.log(profile.photos[0].value);
-    process.nextTick(function() {
-      User.findOne({ 'fb.id': profile.id }, function(err, user) {
-        if (err)
-          return done(err);
-        if (user) {
-          return done(null, user);
-        } else {
+            clientID: fbConfig.clientID,
+            clientSecret: fbConfig.clientSecret,
+            callbackURL: fbConfig.callbackURL,
+            profileFields: ["id", "email", "first_name", "last_name", "picture"]
+        },
+        function(token, refreshToken, profile, done) {
+            console.log(profile.photos[0].value);
+            process.nextTick(function() {
+                User.findOne({
+                    "fb.id": profile.id
+                }, function(err, user) {
+                    if (err) {
+                        return done(err);
+                    }
 
-          var newUser = new User();
-          newUser.gravatarImg = profile.photos[0].value;
-          newUser.fb.id = profile.id;
-          newUser.username = profile.name.givenName + "_" + profile.name.familyName + Math.floor((Math.random() * 999) + 1);;
-          newUser.fb.token = token;
-          newUser.fb.name = profile.name.givenName + ' ' + profile.name.familyName;
-          newUser.fb.email = (profile.emails[0].value || '').toLowerCase();
+                    if (user) {
+                        return done(null, user);
+                    } else {
 
-          newUser.save(function(err) {
-            if (err)
-              throw err;
-            return done(null, newUser);
-          });
-        }
-      });
-    });
-  }));
+                        var newUser = new User();
+                        newUser.gravatarImg = profile.photos[0].value;
+                        newUser.fb.id = profile.id;
+                        newUser.username = profile.name.givenName + "_" + profile.name.familyName + Math.floor((Math.random() * 999) + 1);
+                        newUser.fb.token = token;
+                        newUser.fb.name = profile.name.givenName + " " + profile.name.familyName;
+                        newUser.fb.email = (profile.emails[0].value || "").toLowerCase();
 
+                        newUser.save(function(err) {
+                            if (err) {
+                                return done(err);
+                            }
 
-
-
-    var isValidPassword = function(user, password) {
-        return bCrypt.compareSync(password, user.password);
-    }
-}
+                            return done(null, newUser);
+                        });
+                    }
+                });
+            });
+        }));
+};

@@ -1,23 +1,26 @@
 var mongoose = require("mongoose");
 var path = require("path");
-var Comment = ("./comment");
+
 var Image = new mongoose.Schema({
     title: String,
     filename: String,
     description: String,
-    user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
-    likes: { type: Number, "default": 0 },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
+    likes: {
+        type: Number,
+        "default": 0
+    },
     comments: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Comment"
     }],
-
-    date: Date,
-
+    date: Date
 });
 
-
-Image.virtual('linkId').get(function() {
+Image.virtual("linkId").get(function() {
     return this.filename.replace(path.extname(this.filename), "");
 });
 

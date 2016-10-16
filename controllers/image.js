@@ -8,10 +8,8 @@ var Like = require("../models/like");
 var User = require("../models/user");
 var sharp = require("sharp");
 
-
 module.exports = {
     newImage: function(req, res, next) {
-
 
         function storeImage() {
             var imageName = "e" + Math.random().toString(36).substr(2, 9);
@@ -26,25 +24,26 @@ module.exports = {
                     var ext = path.extname(req.files[0].originalname);
 
                     var filePath = req.files[0].path;
-                    var tempName = req.files[0].filename;
 
-                    if (ext === '.png' || ext === '.jpeg' ||
-                        ext === '.jpg' || ext === '.gif') {
-
+                    if (ext === ".png" || ext === ".jpeg" ||
+                        ext === ".jpg" || ext === ".gif") {
 
                         sharp(filePath)
                             .resize(800)
-                            .toFile("./public/uploads/e" + imageName + ext, function(err, info) {
+                            .toFile("./public/uploads/e" + imageName + ext, function(err) {
+
                                 if (err) {
                                     return next(err);
                                 } else {
                                     sharp.cache({
                                         files: 0
                                     });
+
                                     sharp.cache(false);
                                     sharp(filePath)
                                         .resize(300)
-                                        .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err, info) {
+                                        .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err) {
+
                                             if (err) {
                                                 return next(err);
                                             } else {
@@ -52,70 +51,56 @@ module.exports = {
                                                     if (err) {
                                                         return next(err);
                                                     }
-                                                    return res.redirect('/image/' + imageName);
+
+                                                    return res.redirect("/image/" + imageName);
                                                 });
 
-
                                             }
-                                        })
-
-
-
+                                        });
                                 }
-                            })
-
-
-
+                            });
 
                         var newImage = new Image({
                             title: req.body.title,
                             filename: "e" + imageName + ext,
                             description: req.body.description,
                             user: req.session.passport.user
-
-
-
                         }).save();
+
                     } else {
                         fs.unlink(filePath, function() {
-                            req.flash('error', 'Not a valid file extension');
-                            console.log(res.error);
-                            return res.redirect('/');
+                            req.flash("error", "Not a valid file extension");
+                            return res.redirect("/");
 
                         });
-
 
                     }
                 }
 
             });
 
-
         }
 
         if (req.body.title.length > 70) {
-            req.flash("error", "Title to long - maxium length is 70 characters")
-            return res.redirect('/');
+            req.flash("error", "Title to long - maxium length is 70 characters");
+            return res.redirect("/");
+
         } else if (req.body.description.length > 600) {
-            req.flash("error", "Description is to long - maxium length is 600 characters")
-            return res.redirect('/');
+            req.flash("error", "Description is to long - maxium length is 600 characters");
+            return res.redirect("/");
         }
 
         if (req.body.title && req.body.description && req.files[0]) {
             storeImage();
+
         } else {
-            req.flash('error', 'Fill in all fields');
-            return res.redirect('/');
+            req.flash("error", "Fill in all fields");
+            return res.redirect("/");
         }
-
-        console.log(req.body.title.length);
-
-
-
 
     },
 
-    deleteImage: function(req, res) {
+    deleteImage: function(req, res, next) {
         Image.findOne({
             filename: {
                 $regex: req.params.idImage
@@ -124,45 +109,45 @@ module.exports = {
             if (err) {
                 return next(err);
             }
+
             if (image) {
                 Comment.remove({
                     image_id: image._id
-                }, function(err, info) {
+                }, function(err) {
                     if (err) {
                         return next(err);
                     }
 
-                    console.log(image);
-
-                    fs.unlink('./public/uploads/' + image.filename, function(err) {
+                    fs.unlink("./public/uploads/" + image.filename, function(err) {
                         if (err) {
                             return next(err);
                         }
+
                         console.log("File deleted successfully!");
                     });
 
-                    fs.unlink('./public/uploads/thumbnails/' + image.filename, function(err) {
+                    fs.unlink("./public/uploads/thumbnails/" + image.filename, function(err) {
+
                         if (err) {
                             return next(err);
                         }
-                        console.log("File deleted successfully!");
+
                     });
 
                     Image.remove({
                         _id: image._id
-                    }, function(err, inf) {
+                    }, function(err) {
                         if (err) {
                             return next(err);
                         }
 
                         res.redirect("/");
-                    })
-                })
+                    });
+                });
+
             } else {
                 return res.render("/");
             }
-
-
 
         })
     },
@@ -174,20 +159,16 @@ module.exports = {
                     $regex: req.params.idImage
                 }
             })
-            .populate('comments').exec(function(err, image) {
+            .populate("comments").exec(function(err, image) {
                 if (!image) {
                     return next();
                 }
+
                 var view = {
                     image: image
                 };
 
-
-
                 User.findById(req.session.passport.user, function(err, user) {
-
-
-
 
                     view.gravatarImg = user.gravatarImg;
 
@@ -195,7 +176,7 @@ module.exports = {
 
                     sidebar.sidebar(view, function() {
 
-                        res.render('showImage', view);
+                        res.render("showImage", view);
                     });
                 });
 
@@ -212,8 +193,9 @@ module.exports = {
 
         if (cleanData.length === 0) {
             res.status(400).send({
-                error: 'Invalid value'
+                error: "Invalid value"
             });
+
         } else {
             Image.findOne({
                     filename: {
@@ -222,7 +204,7 @@ module.exports = {
                 },
                 function(err, image) {
                     Comment.create({
-                        text: cleanData,
+                        text: cleanData
                     }, function(err, comment) {
                         if (err) {
                             console.log(err);
@@ -239,9 +221,9 @@ module.exports = {
                                 res.json({
                                     data: cleanData,
                                     username: comment.username,
-                                    link: "/image/" + image.linkId + "/comment/"  + comment._id + "?_method=DELETE"
+                                    link: "/image/" + image.linkId + "/comment/" + comment._id + "?_method=DELETE"
                                 });
-                            })
+                            });
                         }
                     });
 
@@ -250,31 +232,34 @@ module.exports = {
 
     },
 
-    deleteComment: function(req, res) {
-        console.log("hello from deleteComment");
+    deleteComment: function(req, res, next) {
+        Image.update({}, {
+            $pull: {
 
+                comments: req.params.comment_id
+            }
+        }, {
+            multi: true
+        }, function(err) {
+            if (err) {
+                return next(err);
+            }
 
-
-            Image.update({}, {
-                $pull: {
-
-                    comments: req.params.comment_id
-                }
-            }, {
-                multi: true
+            Comment.remove({
+                _id: req.params.comment_id
             }, function(err) {
-                Comment.remove({_id: req.params.comment_id}, function(err) {
-                    if(err){console.log(err);}
-                    res.redirect("/image/" + req.params.idImage);
-                })
-            })
 
+                if (err) {
+                    return next(err);
+                }
 
+                res.redirect("/image/" + req.params.idImage);
+            });
+        });
 
     },
 
     like: function(req, res) {
-        var countlikes;
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage
@@ -284,8 +269,6 @@ module.exports = {
                 if (err) {
                     console.log(err);
                 }
-
-
 
                 Like.findOne({
                     image: image._id,
@@ -302,17 +285,12 @@ module.exports = {
                             user: req.session.passport.user
                         });
 
-
-                        console.log(image.likes);
                         image.likes = image.likes + 1;
-
-
 
                     } else {
                         likeObj.remove();
 
                         image.likes = image.likes - 1;
-
 
                     }
 
@@ -327,7 +305,6 @@ module.exports = {
                     });
 
                 });
-
 
             });
     }

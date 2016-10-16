@@ -1,57 +1,56 @@
-
 {{#if error}}
     <div class="alert alert-danger">
         {{error}}
     </div>
 {{/if}}
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Upload an image</h3>
-            </div>
-            <div class="panel-body">
-                <form class="form-horizontal"  method="post"  action="/" enctype="multipart/form-data">
-                    <div class="form-group">
-                        <label class=" control-label col-sm-2" >Image:</label>
-                        <div class="col-sm-10">
-                            <label class="btn btn-primary btn-file">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">Upload an image</h3>
+    </div>
+    <div class="panel-body">
+        <form class="form-horizontal" method="post" action="/" enctype="multipart/form-data">
+            <div class="form-group">
+                <label class=" control-label col-sm-2">Image:</label>
+                <div class="col-sm-10">
+                    <label class="btn btn-primary btn-file">
                                 <span class="fa fa-upload"></span> Browse
                                 <input type="file" name="file" id="file-input" style="display: none;">
 
                             </label>
-                            <p class="file-name">
+                    <p class="file-name">
 
-                            </p>
+                    </p>
 
-                        </div>
+                </div>
 
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Title:</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" name="title">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label col-sm-2">Description:</label>
-                        <div class="col-sm-10">
-                            <textarea class="form-control" name="description"></textarea>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-success pull-right btn-lg">Submit</button>
-                </form>
             </div>
-        </div>
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">Newest Images</h3>
-            </div>
-            <div class="panel-body">
-                <div class="row">
-                {{#each images}}
-                    <div class="col-md-3 text-center newestPics">
-                        <a href="image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="width: 175px; height: 175px;" class="img-thumbnail"></a>
-                    </div>
-                {{/each}}
+            <div class="form-group">
+                <label class="control-label col-sm-2">Title:</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="title">
                 </div>
             </div>
+            <div class="form-group">
+                <label class="control-label col-sm-2">Description:</label>
+                <div class="col-sm-10">
+                    <textarea class="form-control" name="description"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success pull-right btn-lg">Submit</button>
+        </form>
+    </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Newest Images</h3>
+    </div>
+    <div class="panel-body">
+        <div class="row">
+            {{#each images}}
+                <div class="col-md-3 text-center newestPics">
+                    <a href="image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="width: 175px; height: 175px;" class="img-thumbnail"></a>
+                </div>
+            {{/each}}
         </div>
+    </div>
+</div>

@@ -2,30 +2,31 @@ var Image = require("../models/image");
 var sidebar = require("./sidebar");
 var User = require("../models/user");
 
-
 module.exports = {
     index: function(req, res) {
         var view = {};
 
-            Image.find({}).limit(3).sort({_id:-1}).exec( function(err, images) {
-                if (err) {
-                    console.log(err);
-                }
+        Image.find({}).limit(3).sort({
+            _id: -1
+        }).exec(function(err, images) {
 
-                view.images = images;
+            if (err) {
+                console.log(err);
+            }
 
-                sidebar.sidebar(view, function() {
+            view.images = images;
 
-                    User.findById(req.session.passport.user, function(err, user) {
-                        view.gravatarImg = user.gravatarImg;
-                        view.layout = "main";
+            sidebar.sidebar(view, function() {
 
-                        res.render("index",view);
-                    });
+                User.findById(req.session.passport.user, function(err, user) {
+                    view.gravatarImg = user.gravatarImg;
+                    view.layout = "main";
+
+                    res.render("index", view);
                 });
-
             });
 
+        });
 
     }
 };

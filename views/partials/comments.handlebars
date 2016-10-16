@@ -7,21 +7,21 @@
 
             {{#each newComments}}
 
-                    <li class="media">
+                <li class="media">
 
-                            <a class="pull-left" href="/image/{{ relatedImage.linkId }}">
-                                <img width="60px" height="60px" class="media-object" src="/uploads/thumbnails/{{relatedImage.filename}}" alt="...">
-                            </a>
+                    <a class="pull-left" href="/image/{{ relatedImage.linkId }}">
+                        <img width="60px" height="60px" class="media-object" src="/uploads/thumbnails/{{relatedImage.filename}}" alt="...">
+                    </a>
 
-                        <div class="media-body">
-                            {{comments.text}}
-                            <br/>
+                    <div class="media-body">
+                        {{comments.text}}
+                        <br/>
                         <small class="text-muted"> {{timeago comments.timestamp }}</small>
-                        </div>
-                    </li>
+                    </div>
+                </li>
 
 
             {{/each}}
-         </ul>
+        </ul>
     </div>
 </div>

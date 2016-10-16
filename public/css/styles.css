@@ -1,17 +1,16 @@
 body {
-  background: #fafafa;
+    background: #fafafa;
 }
 
 h1 {
-font-family: 'Droid Serif', Georgia, Times, serif;
-font-size: 50px;
-line-height: 65px;
-color: white;
+    font-family: 'Droid Serif', Georgia, Times, serif;
+    font-size: 50px;
+    line-height: 65px;
+    color: white;
 }
 
 .delete-comment {
     font-size: 8px;
-    
 }
 
 h1 a:hover {
@@ -23,9 +22,9 @@ h2 {
 }
 
 p {
-	font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
-	font-size: 15px;
-	line-height: 25px;
+    font-family: 'Droid Sans', Helvetica, Arial, sans-serif;
+    font-size: 15px;
+    line-height: 25px;
     color: black;
 }
 
@@ -36,7 +35,6 @@ p {
 .logoutbutton {
     margin-top: -50px;
     margin-right: 50px;
-
 }
 
 .alert-danger {
@@ -53,16 +51,16 @@ p {
 }
 
 .username {
-
     position: absolute;
     left: 113px;
     font-weight: bold;
 }
+
 .comment-group {
     background: white;
     padding: 13px;
     border-radius: rem(3);
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.08);
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08);
 }
 
 .comment-gravatar {
@@ -88,16 +86,15 @@ p {
 }
 
 .newestPics {
-  padding-bottom: 14px;
-  padding-left: 7px;
-  padding-right: 7px
+    padding-bottom: 14px;
+    padding-left: 7px;
+    padding-right: 7px
 }
 
 .page-header {
-  background: #fff;
-  height: 100px;
-  margin-top: 0px;
-
+    background: #fff;
+    height: 100px;
+    margin-top: 0px;
 }
 
 #updateLikes {
@@ -105,89 +102,75 @@ p {
 }
 
 .page-footer {
-  background: #fff;
-  height: 80px;
- text-align: center;
-
-
+    background: #fff;
+    height: 80px;
+    text-align: center;
 }
 
-
-
-
 .page-header h1 {
-
     margin-top: 0;
     padding-top: 20px;
-
-  margin-left: 50px;
+    margin-left: 50px;
 }
 
 .like {
-  color: #428bca;
+    color: #428bca;
 }
 
-.label  {
-  margin-left: 10px;
-  border-radius: 8px;
+.label {
+    margin-left: 10px;
+    border-radius: 8px;
 }
-
-
 
 hr.style14 {
-  display: none;
-  border: 0;
-  height: 1px;
-  background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-  background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-  background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
-  background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    display: none;
+    border: 0;
+    height: 1px;
+    background-image: -webkit-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -moz-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -ms-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
+    background-image: -o-linear-gradient(left, #f0f0f0, #8c8b8b, #f0f0f0);
 }
 
 #comment-form {
-  display: none;
+    display: none;
 }
 
 .error {
-  margin: 0 auto;
-  padding: 25px;
-  margin-top: 23%;
-  margin-bottom: 23%;
-  text-align: center;
-  background: white;
-  max-width: 600px;
+    margin: 0 auto;
+    padding: 25px;
+    margin-top: 23%;
+    margin-bottom: 23%;
+    text-align: center;
+    background: white;
+    max-width: 600px;
 }
 
 .error-code {
-  bottom: 60%;
-  color: #2d353c;
-  font-size: 96px;
-  line-height: 100px;
+    bottom: 60%;
+    color: #2d353c;
+    font-size: 96px;
+    line-height: 100px;
 }
 
 .error-desc {
-  font-size: 12px;
-  color: #647788;
+    font-size: 12px;
+    color: #647788;
 }
 
 .m-b-10 {
-  margin-bottom: 10px!important;
+    margin-bottom: 10px!important;
 }
 
 .m-b-20 {
-  margin-bottom: 20px!important;
+    margin-bottom: 20px!important;
 }
 
 .m-t-20 {
-  margin-top: 20px!important;
+    margin-top: 20px!important;
 }
 
-
 .introduction {
-  text-align: center;
-
-
+    text-align: center;
     margin: 0 auto;
-
-
 }
