@@ -12,6 +12,15 @@ $(myInput).change(function() {
     document.querySelector(".file-name").textContent = myInput.value.split("\\").pop();
 });
 
+
+var popularImgBox = document.getElementById("popular-img-box");
+var commentBox = document.getElementById("popular-comment-box");
+
+if(popularImgBox && commentBox) {
+    commentBox.style.height = popularImgBox.offsetHeight +"px"; 
+}
+
+
 var webEvents = {
     toogleComment: function() {
 
