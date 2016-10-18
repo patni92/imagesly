@@ -3,10 +3,12 @@
         <h2 class="panel-title">Most popular</h2>
     </div>
     <div class="panel-body">
+
         {{#each popularImages}}
-            <div class="col-md-6 text-center">
-                <a href="/image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="width: 120px; height: 120px;" class="img-thumbnail"></a>
+            <div class="col-md-6  col-xs-6 text-center popular-images">
+                <a href="/image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="min-height: 110px;" class="img-thumbnail "></a>
             </div>
         {{/each}}
+
     </div>
 </div>

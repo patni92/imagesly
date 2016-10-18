@@ -45,12 +45,15 @@
         <h3 class="panel-title">Newest Images</h3>
     </div>
     <div class="panel-body">
-        <div class="row">
+
             {{#each images}}
-                <div class="col-md-3 text-center newestPics">
-                    <a href="image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="width: 175px; height: 175px;" class="img-thumbnail"></a>
+                <div class="col-md-4 col-xs-6 text-center newestPics "  >
+
+                        <a  href="image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="min-height: 160px" class="img-thumbnail" ></a>
+
+
                 </div>
             {{/each}}
-        </div>
+
     </div>
 </div>

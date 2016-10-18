@@ -152,7 +152,6 @@ module.exports = {
         })
     },
 
-
     showImage: function(req, res, next) {
         Image.findOne({
                 filename: {

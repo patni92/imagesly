@@ -59,7 +59,9 @@ module.exports = function(app) {
             return res.redirect("/");
         }
 
-        res.status(500).send("Something broke!");
+        var view = {};
+        view.layout = "empty";
+        res.render("500page", view);
     });
 
     app.use(function(req, res) {
