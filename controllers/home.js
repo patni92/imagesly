@@ -6,7 +6,7 @@ module.exports = {
     index: function(req, res) {
         var view = {};
 
-        Image.find({}).limit(8).sort({
+        Image.find({}).limit(6).sort({
             _id: -1
         }).exec(function(err, images) {
 

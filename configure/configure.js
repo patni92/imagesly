@@ -17,7 +17,8 @@ require("./passport")(passport);
 module.exports = function(app) {
 
     app.set("port", process.env.PORT || 3000);
-    mongoose.connect("mongodb://localhost/imagesly");
+    console.log(config.mongoDB.username);
+    mongoose.connect("mongodb://" + config.mongoDB.username + ":" + config.mongoDB.password + config.mongoDB.address);
     mongoose.connection.on("open", function() {
         console.log("Mongoose connected.");
     });
