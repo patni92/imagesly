@@ -44,16 +44,16 @@
     <div class="panel-heading">
         <h3 class="panel-title">Newest Images</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body text-center" style="display:flex; flex-wrap: wrap;">
 
             {{#each images}}
-                <div class="col-md-4 col-xs-6 text-center newestPics "  >
+                <div class="col-md-4 col-xs-6  group-pics "  >
 
-                        <a  href="image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="min-height: 160px" class="img-thumbnail" ></a>
+                        <a  href="image/{{linkId}}" ><img src="/uploads/thumbnails/{{filename}}" alt="#" class="img-responsive" ></a>
 
 
                 </div>
             {{/each}}
-        
+
     </div>
 </div>

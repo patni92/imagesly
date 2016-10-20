@@ -2,11 +2,11 @@
     <div class="panel-heading">
         <h3 class="panel-title">Most popular</h3>
     </div>
-    <div class="panel-body " id="popular-img-box">
+    <div class="panel-body" style="display:flex; flex-wrap: wrap;" id="popular-img-box">
 
         {{#each popularImages}}
-            <div class="col-md-6  col-xs-12 text-center popular-images full-section">
-                <a href="/image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" style="min-height: 130px;" class="img-thumbnail "></a>
+            <div class="col-md-6  col-xs-6   group-pics full-section">
+                <a href="/image/{{linkId}}"><img src="/uploads/thumbnails/{{filename}}" alt="#" class="img-responsive"></a>
             </div>
         {{/each}}
 

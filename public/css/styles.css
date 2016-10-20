@@ -32,6 +32,8 @@ p {
     font-size: 21px;
 }
 
+
+
 .logoutbutton {
     margin-top: -50px;
     margin-right: 50px;
@@ -80,11 +82,15 @@ p {
 
 
 
-.newestPics {
+.group-pics {
     padding-bottom: 14px;
     padding-left: 7px;
     padding-right: 7px;
-    max-height: 650px;
+}
+
+
+.img-responsive {
+    width: 100%;
 }
 
 .page-header {
@@ -147,6 +153,7 @@ hr.style14 {
 
 
 }
+
 
 
 
@@ -220,6 +227,14 @@ hr.style14 {
         margin-left: 20px;
 
 
+    }
+
+    .image-frame {
+        padding:0;
+    }
+
+    .image-frame p {
+        padding-left: 10px;
     }
 
     .logoutbutton {

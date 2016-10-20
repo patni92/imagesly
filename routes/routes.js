@@ -36,5 +36,6 @@ module.exports = function(app, passport) {
 
     //like routes
     router.post("/image/:idImage/like", middleware.isAuthenticated, image.like);
+    router.get("/image/:idImage/like", middleware.isAuthenticated, image.getLike);
 
 };

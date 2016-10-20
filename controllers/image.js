@@ -170,7 +170,6 @@ module.exports = {
                 User.findById(req.session.passport.user, function(err, user) {
 
                     view.gravatarImg = user.gravatarImg;
-
                     view.currentUser = req.session.passport.user;
 
                     sidebar.sidebar(view, function() {
@@ -255,6 +254,38 @@ module.exports = {
                 res.redirect("/image/" + req.params.idImage);
             });
         });
+
+    },
+    getLike: function(req, res) {
+
+        Image.findOne({
+                filename: {
+                    $regex: req.params.idImage
+                }
+            },
+            function(err, image) {
+                Like.findOne({
+                    image: image._id,
+                    user: req.session.passport.user
+                }, function(err, likeObj) {
+
+                    if(err) {
+                        res.json({err: err});
+                    }
+
+                    if (likeObj) {
+                        return res.json({
+                            err: null,
+                            like: true
+                        });
+                    } else {
+                        return res.json({
+                            err: null,
+                            like: false
+                        });
+                    }
+                });
+            });
 
     },
 
