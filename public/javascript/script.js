@@ -13,12 +13,7 @@ $(myInput).change(function() {
 });
 
 
-var popularImgBox = document.getElementById("popular-img-box");
-var commentBox = document.getElementById("popular-comment-box");
 
-if(popularImgBox && commentBox) {
-    commentBox.style.height = popularImgBox.offsetHeight +"px"; 
-}
 
 
 var webEvents = {

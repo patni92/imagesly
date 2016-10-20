@@ -9,14 +9,15 @@
 
                 <li class="media">
 
-                    <a class="pull-left" href="/image/{{ relatedImage.linkId }}">
-                        <img width="60px" height="60px" class="media-object" src="/uploads/thumbnails/{{relatedImage.filename}}" alt="...">
+
+                    <a class="pull-left " href="/image/{{ relatedImage.linkId }}">
+                        <img width="60px" height="60px" class="media-object  " src="/uploads/thumbnails/{{relatedImage.filename}}" alt="...">
                     </a>
 
                     <div class="media-body">
                         {{comments.text}}
                         <br/>
-                        <small class="text-muted"> {{timeago comments.timestamp }}</small>
+                        <small class="text-muted col-xs-12"> {{timeago comments.timestamp }}</small>
                     </div>
                 </li>
 
