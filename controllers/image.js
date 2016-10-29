@@ -11,6 +11,8 @@ var sharp = require("sharp");
 module.exports = {
     newImage: function(req, res, next) {
 
+        console.log(req.files);
+
         function storeImage() {
             var imageName = "e" + Math.random().toString(36).substr(2, 9);
 
@@ -42,7 +44,7 @@ module.exports = {
                                     sharp.cache(false);
                                     sharp(filePath)
                                         .resize(300)
-                                        .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err) {
+                                        .toFile("./public/uploads/thumbnails/e" + imageName + ext, function(err, metadata) {
 
                                             if (err) {
                                                 return next(err);
@@ -290,6 +292,7 @@ module.exports = {
     },
 
     like: function(req, res) {
+
         Image.findOne({
                 filename: {
                     $regex: req.params.idImage

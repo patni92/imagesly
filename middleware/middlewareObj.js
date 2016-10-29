@@ -15,7 +15,7 @@ middlewareObj.uploadFile = function(req, res, next) {
         storage: storage,
         limits: {
             fileSize: 5242880
-        }
+        },
     }).any();
 
     upload(req, res, function(err) {

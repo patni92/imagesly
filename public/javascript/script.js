@@ -1,4 +1,4 @@
-(function() {
+$(function() {
     // navigate to signup form instead of login
     var hashVal = window.location.hash.split("#")[1];
     if (hashVal == "signup") {
@@ -19,7 +19,7 @@
 
 
     var webEvents = {
-        liked:null,
+
         toogleComment: function() {
 
             var commentButton = document.getElementById("comment-button");
@@ -83,11 +83,13 @@
 
         getLikes: function() {
             var likes = document.querySelector("#like-counter");
+            var self = this;
             if (likes) {
                 $.get(window.location.pathname + "/like", function(data) {
+
                     if (!data.err) {
-                        console.log(data);
-                        this.liked = data.like;
+                        self.liked = data.like;
+
                     }
 
                 });
@@ -96,20 +98,22 @@
 
         updateLikes: function() {
             var ready = true;
+
+            var self = this;
             $("#updateLikes").on("click", function(event) {
+
                 var value = document.querySelector("#like-counter");
 
                 if (ready) {
 
-                    if (this.liked) {
-                        value.textContent = parseInt(value.textContent) - 1 ;
-                        this.liked = false;
+                    if (self.liked) {
+                        value.textContent = parseInt(value.textContent) - 1;
+                        self.liked = false;
 
                     } else {
                         value.textContent = parseInt(value.textContent) + 1;
-                        this.liked = true;
+                        self.liked = true;
                     }
-
                     $.post(window.location.pathname + "/like", function(data) {
 
                         ready = true;
@@ -124,6 +128,12 @@
 
     webEvents.toogleComment();
     webEvents.postComment();
-    webEvents.getLikes();
+    if ($("#like-counter").length > 0) {
+        $(document).ready(function() {
+            webEvents.getLikes()
+        });
+    }
+
     webEvents.updateLikes();
-})();
+
+});
