@@ -54,7 +54,7 @@ module.exports = {
                                                         return next(err);
                                                     }
 
-                                                    return res.redirect("/image/" + imageName);
+                                                    return res.redirect("/imagesly/image/" + imageName);
                                                 });
 
                                             }
@@ -72,7 +72,7 @@ module.exports = {
                     } else {
                         fs.unlink(filePath, function() {
                             req.flash("error", "Not a valid file extension");
-                            return res.redirect("/");
+                            return res.redirect("/imagesly");
 
                         });
 
@@ -85,11 +85,11 @@ module.exports = {
 
         if (req.body.title.length > 70) {
             req.flash("error", "Title to long - maxium length is 70 characters");
-            return res.redirect("/");
+            return res.redirect("/imagesly");
 
         } else if (req.body.description.length > 600) {
             req.flash("error", "Description is to long - maxium length is 600 characters");
-            return res.redirect("/");
+            return res.redirect("/imagesly");
         }
 
         if (req.body.title && req.body.description && req.files[0]) {
@@ -97,7 +97,7 @@ module.exports = {
 
         } else {
             req.flash("error", "Fill in all fields");
-            return res.redirect("/");
+            return res.redirect("/imagesly");
         }
 
     },
@@ -143,12 +143,12 @@ module.exports = {
                             return next(err);
                         }
 
-                        res.redirect("/");
+                        res.redirect("/imagesly");
                     });
                 });
 
             } else {
-                return res.render("/");
+                return res.render("/imagesly");
             }
 
         })

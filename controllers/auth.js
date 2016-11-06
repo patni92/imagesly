@@ -13,7 +13,7 @@ module.exports = {
             if (req.body.password !== req.body.confirmPassword) {
 
                 req.flash("error", "password don't match ");
-                return res.redirect("/#signup");
+                return res.redirect("/imagesly/#signup");
 
             }
             var userData = {
@@ -28,7 +28,7 @@ module.exports = {
 
                     if (err.code === 11000) {
                         req.flash("error", "Email or username already in use");
-                        return res.redirect("/#signup");
+                        return res.redirect("/imagesly/#signup");
                     }
 
                     return next(err);
@@ -44,7 +44,7 @@ module.exports = {
 
             console.log(res.error);
             req.flash("error", "Fill in all fields");
-            return res.redirect("/#signup");
+            return res.redirect("/imagesly/#signup");
         }
 
     },
@@ -52,7 +52,7 @@ module.exports = {
     logout: function(req, res) {
         if (req.session) {
             req.logout();
-            return res.redirect("/");
+            return res.redirect("/imagesly");
         }
 
     }

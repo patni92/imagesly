@@ -6,13 +6,13 @@ var auth = require("../controllers/auth");
 var middleware = require("../middleware/middlewareObj");
 
 module.exports = function(app, passport) {
-    app.use(router);
+    app.use("/imagesly", router);
 
     //auth routes
     router.post("/register", auth.register);
     router.post("/login", passport.authenticate("local-login", {
-        successRedirect: "/",
-        failureRedirect: "/",
+        successRedirect: "/imagesly",
+        failureRedirect: "/imagesly",
         failureFlash: true
     }));
     router.post("/logout", auth.logout);
@@ -20,8 +20,8 @@ module.exports = function(app, passport) {
         scope: "email"
     }));
     router.get("/auth/facebook/callback", passport.authenticate("facebook", {
-        successRedirect: "/",
-        failureRedirect: "/"
+        successRedirect: "/imagesly",
+        failureRedirect: "/imagesly"
     }));
 
     //image routes

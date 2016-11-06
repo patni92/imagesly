@@ -85,7 +85,7 @@ $(function() {
             var likes = document.querySelector("#like-counter");
             var self = this;
             if (likes) {
-                $.get(window.location.pathname + "/like", function(data) {
+                $.get(window.location.pathname + "/imagesly/like", function(data) {
 
                     if (!data.err) {
                         self.liked = data.like;

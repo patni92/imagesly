@@ -8,7 +8,7 @@
         <h3 class="panel-title">Upload an image</h3>
     </div>
     <div class="panel-body">
-        <form class="form-horizontal" method="post" action="/" enctype="multipart/form-data">
+        <form class="form-horizontal" method="post" action="/imagesly" enctype="multipart/form-data">
             <div class="form-group">
                 <label class=" control-label col-sm-2">Image:</label>
                 <div class="col-sm-10">
@@ -49,7 +49,7 @@
             {{#each images}}
                 <div class="col-md-4 col-xs-6  group-pics "  >
 
-                        <a  href="image/{{linkId}}" ><img src="/uploads/thumbnails/{{filename}}" alt="#" class="img-responsive thumbnail-image" ></a>
+                        <a  href="/imagesly/image/{{linkId}}" ><img src="/uploads/thumbnails/{{filename}}" alt="#" class="img-responsive thumbnail-image" ></a>
 
 
                 </div>
