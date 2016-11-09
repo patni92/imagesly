@@ -15,7 +15,9 @@ $(function() {
 
     console.log(window.location.href);
 
-
+    $('.a-login').click(function() {
+        return false;
+    })
 
 
     var webEvents = {
