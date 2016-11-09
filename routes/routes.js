@@ -5,6 +5,10 @@ var image = require("../controllers/image");
 var auth = require("../controllers/auth");
 var middleware = require("../middleware/middlewareObj");
 var mail = require("../controllers/sendMail");
+var cors = require('cors');
+
+
+
 
 module.exports = function(app, passport) {
     app.use("/imagesly", router);
@@ -40,5 +44,4 @@ module.exports = function(app, passport) {
     router.get("/image/:idImage/like", middleware.isAuthenticated, image.getLike);
 
     router.post("/sendmail", mail.sendmail);
-
-};
+  }
